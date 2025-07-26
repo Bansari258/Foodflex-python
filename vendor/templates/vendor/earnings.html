@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'vendorPanel/img/favicon.png' %}" type="">
+    <title>FoodFlex - Vendor Earnings</title>
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'vendorPanel/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="{% static 'vendorPanel/css/admin.css' %}" rel="stylesheet">
+    <!-- Icon fonts-->
+    <link href="{% static 'vendorPanel/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Plugin styles -->
+    <link href="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <!-- Your custom styles -->
+    <link href="{% static 'vendorPanel/css/custom.css' %}" rel="stylesheet">
+    <style>
+        /* vendorPanel/css/custom.css */
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}
+
+#total-earnings {
+    color: #ff9f40;
+    font-weight: bold;
+}
+    </style>
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top shadow" id="mainNav">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav shadow" id="exampleAccordion">
+                <div class="sidenav-top">
+                    <a class="navbar-brand" href="{% url 'vendor:vendor_home' %}">
+                        <img src="{% static 'vendorPanel/img/logo.png' %}" alt="" width="150" height="36">
+                    </a>
+                    <ul class="navbar-nav sidenav-toggler">
+                        <li class="nav-item">
+                            <a class="nav-link text-center" id="sidenavToggler">
+                                <i class="fa fa-fw fa-angle-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_home' %}">
+                        <i class="fa fa-fw fa-tachometer"></i>
+                        <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:orders' %}">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="nav-link-text">Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:menu' %}">
+                        <i class="fa fa-fw fa-cutlery"></i>
+                        <span class="nav-link-text">Menu Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span class="nav-link-text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'vendor:earnings' %}">
+                        <i class="fa fa-fw fa-money-check-dollar"></i>
+                        <span class="nav-link-text">Earnings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span class="nav-link-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Top Right Navbar -->
+            <ul class="navbar-nav ml-auto" id="navtop">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-user text-orange"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-orange" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out-alt text-orange"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Total Earnings -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-indian-rupee-sign"></i>Total Earnings</h2>
+                </div>
+                <div class="mt-3">
+                    <h4>Total Earnings: <span id="total-earnings">₹{{ total_earnings|floatformat:2 }}</span></h4>
+                </div>
+            </div>
+
+      
+
+            <!-- Daily Earnings -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-calendar"></i>Daily Earnings</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dailyEarningsTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Order Count</th>
+                                <th>Earnings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in daily_earnings %}
+                                <tr>
+                                    <td>{{ entry.day|date:"Y-m-d" }}</td>
+                                    <td>{{ entry.count }}</td>
+                                    <td>₹{{ entry.total|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">No daily earnings data available.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monthly Earnings -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-calendar"></i>Monthly Earnings</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="monthlyEarningsTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Order Count</th>
+                                <th>Earnings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in monthly_earnings %}
+                                <tr>
+                                    <td>{{ entry.month|date:"F Y" }}</td>
+                                    <td>{{ entry.count }}</td>
+                                    <td>₹{{ entry.total|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="3">No monthly earnings data available.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- All Orders -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-shopping-cart"></i>All Orders</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="ordersTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.user.email }}</td>
+                                    <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ order.status }}</td>
+                                    <td>₹{{ order.total_amount|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5">No orders found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+    
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/chart.js/Chart.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'vendorPanel/js/admin.js' %}"></script>
+    <!-- Custom scripts for this page-->
+    <script>
+        $(document).ready(function() {
+            $('#ordersTable').DataTable();
+            $('#dailyEarningsTable').DataTable();
+            $('#monthlyEarningsTable').DataTable();
+
+            // Monthly Earnings Chart
+            var ctx = document.getElementById("myAreaChart").getContext('2d');
+            var myAreaChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: JSON.parse('{{ chart_labels|escapejs }}'),
+                    datasets: [{
+                        label: 'Earnings ($)',
+                        lineTension: 0.3,
+                        backgroundColor: "rgba(255, 159, 64, 0.2)",
+                        borderColor: "rgba(255, 159, 64, 1)",
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 159, 64, 1)",
+                        pointBorderColor: "rgba(255, 255, 255, 0.8)",
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(255, 159, 64, 1)",
+                        pointHitRadius: 50,
+                        pointBorderWidth: 2,
+                        data: JSON.parse('{{ chart_data|escapejs }}'),
+                    }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            time: {
+                                unit: 'month'
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 6
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, .125)",
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

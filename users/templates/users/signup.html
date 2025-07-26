@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="">
+    <title>FoodFlex - Advanced Food Ordering System</title>
+    <!-- BASE CSS -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/custom.css" rel="stylesheet">
+
+</head>
+
+<body id="register_bg">
+    <div id="register">
+        <aside>
+            <figure>
+                <a href="{% url 'users:landing' %}">
+                    <img src="{% static 'img/logo-black.png' %}" width="140" height="35" alt="FoodFlex Logo">
+                </a>
+            </figure>
+            <form autocomplete="off" id="signup-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Name" name="first_name" required>
+                    <i class="icon_pencil-edit"></i>
+                    <span class="error" id="first_name-error"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Last Name" name="last_name" required>
+                    <i class="icon_pencil-edit"></i>
+                    <span class="error" id="last_name-error"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" placeholder="Email" name="email" required>
+                    <i class="icon_mail_alt"></i>
+                    <span class="error" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" id="password1" placeholder="Password" name="password" required>
+                    <i class="icon_lock_alt"></i>
+                    <span class="error" id="password-error"></span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" id="password2" placeholder="Confirm Password" name="confirm_password" required>
+                    <i class="icon_lock_alt"></i>
+                    <span class="error" id="confirm_password-error"></span>
+                </div>
+                <div id="pass-info" class="clearfix"></div>
+                <a href="javascript:void(0)" class="btn_1 gradient full-width" id="submit-signup">Register Now!</a>
+                <div class="text-center mt-2">
+                    <small>Already have an account? <strong><a href="{% url 'users:landing' %}">Sign In</a></strong></small>
+                </div>
+            </form>
+            <div id="signup-message" class="text-center mt-3"></div>
+        </aside>
+    </div>
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupButton = document.querySelector('#submit-signup');
+            if (signupButton) {
+                signupButton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('Signup form submitted');
+                    document.querySelectorAll('.error').forEach(el => el.textContent = '');
+                    document.querySelector('#signup-message').textContent = '';
+        
+                    const formData = {
+                        first_name: document.querySelector('input[name="first_name"]').value.trim(),
+                        last_name: document.querySelector('input[name="last_name"]').value.trim(),
+                        email: document.querySelector('input[name="email"]').value.trim(),
+                        password: document.querySelector('#password1').value.trim(),
+                        confirm_password: document.querySelector('#password2').value.trim()
+                    };
+                    console.log('Signup form data:', formData);
+        
+                    let hasErrors = false;
+        
+                    for (const [key, value] of Object.entries(formData)) {
+                        if (!value) {
+                            const errorSpan = document.querySelector(`#${key}-error`);
+                            if (errorSpan) {
+                                errorSpan.style.color = 'red';
+                                errorSpan.textContent = 'This field may not be blank.';
+                            }
+                            hasErrors = true;
+                        }
+                    }
+        
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (formData.email && !emailRegex.test(formData.email)) {
+                        const errorSpan = document.querySelector('#email-error');
+                        if (errorSpan) {
+                            errorSpan.style.color = 'red';
+                            errorSpan.textContent = 'Please enter a valid email address.';
+                        }
+                        hasErrors = true;
+                    }
+        
+                    if (formData.password && formData.confirm_password && formData.password !== formData.confirm_password) {
+                        const errorSpan = document.querySelector('#confirm_password-error');
+                        if (errorSpan) {
+                            errorSpan.style.color = 'red';
+                            errorSpan.textContent = 'Passwords do not match.';
+                        }
+                        hasErrors = true;
+                    }
+        
+                    if (hasErrors) {
+                        document.querySelector('#signup-message').style.color = 'red';
+                        document.querySelector('#signup-message').textContent = 'Please correct the errors below.';
+                    }
+        
+                    fetch("{% url 'users:api_signup' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => {
+                        console.log('Signup response status:', response.status);
+                        return response.json().then(data => {
+                            if (!response.ok) {
+                                console.error(`HTTP error! Status: ${response.status}, Response:`, data);
+                                throw data;
+                            }
+                            return data;
+                        });
+                    })
+                    .then(data => {
+                        const messageDiv = document.querySelector('#signup-message');
+                        console.log('Signup response:', data);
+                        if (data.success) {
+                            messageDiv.style.color = 'green';
+                            messageDiv.textContent = data.message || 'Signup successful! Redirecting...';
+        
+                            const successMessage = encodeURIComponent('Signup successful! You can login now.');
+                            setTimeout(() => {
+                                window.location.href = "{% url 'users:landing' %}?message=" + successMessage;
+                            }, 1000); // Delay for 1 second to show the success message
+                        } else {
+                            // Display the main error message (e.g., "Signup failed")
+                            messageDiv.style.color = 'red';
+                            messageDiv.textContent = data.message || 'Signup failed';
+        
+                            // Display field-specific validation errors (e.g., "Password must be at least 8 characters long...")
+                            if (data.errors) {
+                                for (let field in data.errors) {
+                                    // Map API field names to HTML field names if necessary
+                                    const fieldName = field === 'password' ? 'password' : field === 'confirm_password' ? 'confirm_password' : field;
+                                    const errorSpan = document.querySelector(`#${fieldName}-error`);
+                                    if (errorSpan) {
+                                        errorSpan.style.color = 'red';
+                                        // Ensure the error is a string; join if it's an array
+                                        const errorMessage = Array.isArray(data.errors[field]) 
+                                            ? data.errors[field].join(' ') 
+                                            : data.errors[field];
+                                        errorSpan.textContent = errorMessage;
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        // Handle unexpected errors (not validation errors)
+                        console.error('Signup error:', error);
+                        const messageDiv = document.querySelector('#signup-message');
+                        messageDiv.style.color = 'red';
+                        // If the error has validation data, we already handled it above; otherwise, show a generic message
+                        if (!error.message || !error.errors) {
+                            messageDiv.textContent = 'An unexpected error occurred. Please try again.';
+                        }
+                    });
+                });
+            }
+        });
+        </script>
+    <script src="../static/js/common_scripts.min.js"></script>
+    <script src="../static/js/common_func.js"></script>
+    <script src="../static/js/validate.js"></script>
+</body>
+
+</html>

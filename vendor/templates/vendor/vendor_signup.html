@@ -1,0 +1,256 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>{% block title %}FoodFlex{% endblock %}</title>
+    <!-- BASE CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .error {
+            color: red;
+        }
+
+        .message {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .btn_1 {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn_1:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="text-center my-4" >Join Now </h2>
+
+        <form enctype="multipart/form-data" id="vendor-signup-form" class="full-page-form shadow p-5 rounded-2"
+            action="{% url 'vendor:api_vendor_signup' %}" method="post"> {% csrf_token %}
+
+            <h4>Owner Details</h4>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Full Name" name="full_name" id="name_register"
+                    required>
+                <span class="error" id="full_name-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email Address" name="owner_email"
+                    id="email_register" required>
+                <span class="error" id="owner_email-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="tel" class="form-control" placeholder="Phone Number" name="owner_phone" id="phone_register"
+                    required>
+                <span class="error" id="owner_phone-error"></span>
+            </div>
+
+
+          
+            <h4>Restaurant Documents</h4>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="FSSAI Registration Number" name="fssai_number"
+                    id="fssai_number" required>
+                <span class="error" id="fssai_number-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="fssai_document">FSSAI Registration Document</label>
+                <input type="file" class="form-control" name="fssai_document" id="fssai_document" required>
+                <span class="error" id="fssai_document-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="GSTIN Number" name="gst_number" id="gst_number"
+                    required>
+                <span class="error" id="gst_number-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="gst_document">GST Registration Document</label>
+                <input type="file" class="form-control" name="gst_document" id="gst_document" required>
+                <span class="error" id="gst_document-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Health Trade License Number"
+                    name="health_trade_license_number" id="health_trade_license_number" required>
+                <span class="error" id="health_trade_license_number-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="health_trade_license_document">Health Trade License Document</label>
+                <input type="file" class="form-control" name="health_trade_license_document"
+                    id="health_trade_license_document" required>
+                <span class="error" id="health_trade_license_document-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control"
+                    placeholder="Shops and Establishment License Number (if applicable)"
+                    name="shop_establishment_number" id="shop_establishment_number">
+                <span class="error" id="shop_establishment_number-error"></span>
+            </div>
+           
+            <div class="form-group">
+                <label for="shop_establishment_document">Shops and Establishment License Document (if
+                    applicable)</label>
+                <input type="file" class="form-control" name="shop_establishment_document"
+                    id="shop_establishment_document">
+                <span class="error" id="shop_establishment_document-error"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Company Incorporation Number (if applicable)"
+                    name="company_incorporation_number" id="company_incorporation_number">
+                <span class="error" id="company_incorporation_number-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="company_incorporation_document">Company Incorporation Document (if applicable)</label>
+                <input type="file" class="form-control" name="company_incorporation_document"
+                    id="company_incorporation_document">
+                <span class="error" id="company_incorporation_document-error"></span>
+            </div>
+           
+            <div class="form-group">
+                <label for="partnership_deed">Partnership Deed (if applicable)</label>
+                <input type="file" class="form-control" name="partnership_deed" id="partnership_deed">
+                <span class="error" id="partnership_deed-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="fire_safety_certificate">Fire Safety Certificate (if applicable)</label>
+                <input type="file" class="form-control" name="fire_safety_certificate" id="fire_safety_certificate">
+                <span class="error" id="fire_safety_certificate-error"></span>
+            </div>
+
+           
+            <h4>Login Details</h4>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email Address For Login" name="vendor_email"
+                    id="vendor_email" required>
+                <span class="error" id="vendor_email-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" name="password_register"
+                    id="password_register" required>
+                <span class="error" id="password_register-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Confirm Password"
+                    name="confirm_password_register" id="confirm_password_register" required>
+                <span class="error" id="confirm_password_register-error"></span>
+            </div>
+
+            <div class="form-group text-center mt-5">
+                <input type="submit" class="btn_1 gradient" value="Submit" id="submit-register">
+            </div>
+        </form>
+        <div id="signup-message" class="text-center mt-3"></div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Signup script loaded');
+        const signupForm = document.querySelector('#vendor-signup-form');
+        if (!signupForm) {
+            console.warn('Signup form not found.');
+            return;
+        }
+        console.log('Signup form found:', signupForm);
+
+        signupForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            console.log('Form submission intercepted');
+
+            const formData = new FormData(signupForm);
+            console.log('Form data:', Object.fromEntries(formData));
+
+            const messageDiv = document.querySelector('#signup-message');
+
+            try {
+                const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                console.log('CSRF token:', csrfToken);
+
+                const response = await fetch("{% url 'vendor:api_vendor_signup' %}", {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                });
+
+                console.log('Response status:', response.status);
+                const result = await response.json();
+                console.log('API response:', result);
+
+                if (result.success) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = result.message || 'Signup successful!';
+
+                    // Store tokens in localStorage
+                    if (result.access_token && result.refresh_token) {
+                        localStorage.setItem('access_token', result.access_token);
+                        localStorage.setItem('refresh_token', result.refresh_token);
+                        console.log('Tokens stored in localStorage:', {
+                            access_token: result.access_token,
+                            refresh_token: result.refresh_token
+                        });
+                    } else {
+                        console.warn('Tokens missing in response:', result);
+                    }
+
+                    // Redirect to profile setup
+                    if (result.redirect_url) {
+                        console.log('Redirecting to:', result.redirect_url);
+                        window.location.href = result.redirect_url;
+                    } else {
+                        console.error('No redirect_url in response');
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = 'Signup successful, but no redirect URL provided.';
+                    }
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = result.message || 'Signup failed.';
+                    if (result.errors) {
+                        console.log('Validation errors:', result.errors);
+                        for (let field in result.errors) {
+                            const errorSpan = document.querySelector(`#${field}-error`);
+                            if (errorSpan) errorSpan.textContent = result.errors[field][0];
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = `Signup failed: ${error.message}`;
+            }
+        });
+    });
+</script>
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+</body>
+
+</html>

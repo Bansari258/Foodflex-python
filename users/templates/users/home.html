@@ -1,0 +1,670 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="">
+    <title>FoodFlex - Advanced Food Ordering System</title>
+    <!-- BASE CSS -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- REVOLUTION SLIDER CSS -->
+    <link rel="stylesheet" type="text/css" href="../static/revolution-slider/fonts/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/revolution-slider/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="../static/revolution-slider/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="../static/revolution-slider/css/navigation.css">
+
+    <!-- SPECIFIC CSS -->
+    <link href="../static/css/home.css" rel="stylesheet">
+
+    <!-- YOUR CUSTOM CSS -->
+    <link href="../static/css/custom.css" rel="stylesheet">
+    <style>
+        .icon_cart_alt{
+            font-size: 1.5rem;
+            color: #fff;
+            position: relative;
+            top: 8px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="clearfix element_to_stick header">
+        <div class="container">
+            <div id="logo">
+                <a href="{% url 'users:home' %}">
+                    <img src="../static/img/logo.png" width="150" height="40" alt="" class="logo_normal">
+                    <img src="../static/img/logo-black.png" width="150" height="40" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+          
+            <!-- /top_menu -->
+            <ul id="top_menu">
+                <li>
+                    <a href="{% url 'users:order' vendor_id=vendor_id|default:1 %}?order={{ order_json|urlencode }}" class="icon_cart_alt" title="View Cart"></a>
+                </li>
+                <li><a href="{% url 'users:profile' %}" class="user_2" title="My Account"></a></li>
+            </ul>
+               
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'users:home' %}"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                    <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                    <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'users:help' %}">Help</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- /header -->
+
+    <main>
+        <div class="header-video">
+            <div id="hero_video">
+                <div class="one shape_element"></div>
+                <div class="shape_element two"></div>
+                <div class="d-flex align-items-center opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+                    <div class="container">
+                        <div class="row justify-content-center text-center">
+                            <div class="col-lg-8 col-md-8 col-xl-7">
+                                <h1>Delivery or Takeaway Food</h1>
+                                <p>The best restaurants at the best price</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img src="{% static 'img/video_fix.png' %}" alt="" class="header-video--media"
+                data-video-src="{% static 'video/intro' %}" data-teaser-source="{% static 'video/intro' %}"
+                data-provider="" data-video-width="1920" data-video-height="960">
+            <div class="hero wave"></div>
+        </div>
+        <!-- /hero_single -->
+        <section class="mb-5 py-5 sectiont">
+            <div class="container">
+                <div class="center main_title mb-5 pb-2">
+                    <span><em></em></span>
+                    <h2>Flavors That Make You Smile</h2>
+                    <p>From home-style tiffins to gourmet meals, explore a variety of delicious food from local
+                        kitchens, cafés, and cloud kitchens!</p>
+                </div>
+                <div class="d-flex row align-items-center justify-content-evenly gap-2">
+                    <div class="col-lg-3 col-md-6 rounded-2 shadow text-left mb-4 mb-lg-0 service-block">
+                        <span class="mt-3 wrap-icon"><span class="d-block icon-food_icon_pizza mb-4"></span></span>
+                        <h4 class="mb-2">Savor Every Bite</h4>
+                        <p>Experience the perfect balance of taste and quality with food crafted by passionate chefs and
+                            home cooks.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 rounded-2 shadow text-left mb-4 mb-lg-0 service-block">
+                        <span class="mt-3 wrap-icon"><span class="d-block icon-food_icon_coffee mb-4"></span></span>
+                        <h4 class="mb-2">Fresh & Hygienic</h4>
+                        <p>Enjoy freshly prepared meals made with high-quality ingredients, ensuring great taste and
+                            hygiene.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 rounded-2 shadow text-left mb-4 mb-lg-0 service-block">
+                        <span class="mt-3 wrap-icon"><span class="d-block icon-food_icon_chinese mb-4"></span></span>
+                        <h4 class="mb-2">Wide Variety</h4>
+                        <p>Choose from a range of cuisines, including traditional tiffins, street food, café delights,
+                            and gourmet dishes.</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6 rounded-2 shadow text-left mb-4 mb-lg-0 service-block">
+                        <span class="mt-3 wrap-icon"><span class="d-block icon-food_icon_cake_2 mb-4"></span></span>
+                        <h4 class="mb-2">Affordable </h4>
+                        <p>Get delicious food at budget-friendly prices, delivered straight to your doorstep without any
+                            hassle.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container margin_60">
+            <div class="center main_title">
+                <span><em></em></span>
+                <h2>Popular Categories</h2>
+                <p>Discover the most loved dishes from your favorite local vendors and kitchens!</p>
+            </div>
+            <!-- /main_title -->
+
+            <div class="categories_carousel owl-carousel owl-theme">
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_pizza.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Pizza</h3>
+                                <small>Avg price ₹350</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Japanese</h3>
+                                <small>Avg price ₹450</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Burgers</h3>
+                                <small>Avg price ₹250</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Vegetarian</h3>
+                                <small>Avg price ₹200</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Bakery</h3>
+                                <small>Avg price ₹300</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Chinese</h3>
+                                <small>Avg price ₹280</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="{% url 'users:browse_shops' %}" >
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Mexican</h3>
+                                <small>Avg price ₹320</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+            </div>
+
+            <!-- /carousel -->
+        </div>
+        <!-- /container -->
+        <div class="bg_gray">
+            <div class="container margin_60">
+                <div class="main_title">
+                    <span><em></em></span>
+                    <h2>Top Rated Food Spots</h2>
+                    <p>Discover the best-rated local kitchens, cafés, and cloud kitchens offering mouth-watering meals.</p>
+                    <a href="{% url 'users:browse_shops' %}">View All</a>
+                </div>
+                <div class="carousel_4 owl-carousel owl-theme">
+                    {% for item in top_vendors %}
+                    <div class="item">
+                        <div class="strip">
+                            <figure>
+                                <span class="off ribbon">{% if item.vendor.discount %}-{{ item.vendor.discount }}%{% else %}-20%{% endif %}</span>
+                                <img src="{% static 'img/lazy-placeholder.jpg' %}" 
+                                     data-src="{% if item.vendor.profile_image %}{{ item.vendor.profile_image.url }}{% else %}{% static 'img/location_1.jpg' %}{% endif %}" 
+                                     class="owl-lazy" 
+                                     alt="{{ item.vendor.restaurant_name }}" 
+                                     width="460" 
+                                     height="310">
+                                <a href="{% url 'users:vendor_detail' vendor_id=item.vendor.id %}" class="strip_info">
+                                    <small>{{ item.category_display }}</small>
+                                    <div class="item_title">
+                                        <h3>{{ item.vendor.restaurant_name|default:"Unknown Vendor" }}</h3>
+                                        <small>{{ item.vendor.area|default:'Unknown Area' }}, {{ item.vendor.city|default:'Unknown City' }}</small>
+                                    </div>
+                                </a>
+                            </figure>
+                            <ul>
+                                <li>
+                                    <span class="take">Takeaway</span>
+                                    <span class="deliv">Delivery</span>
+                                </li>
+                                <li>
+                                    <div class="score"><strong>{{ item.vendor.rating|default:0.0|floatformat:1 }}</strong></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="item">
+                        <div class="strip">
+                            <figure>
+                                <img src="{% static 'img/lazy-placeholder.jpg' %}" 
+                                     data-src="{% static 'img/location_1.jpg' %}" 
+                                     class="owl-lazy" 
+                                     alt="No Vendors" 
+                                     width="460" 
+                                     height="310">
+                                <a href="#" class="strip_info">
+                                    <small>No Category</small>
+                                    <div class="item_title">
+                                        <h3>No Vendors Available</h3>
+                                        <small>Please check back later</small>
+                                    </div>
+                                </a>
+                            </figure>
+                            <ul>
+                                <li><span class="no take">Takeaway</span> <span class="deliv no">Delivery</span></li>
+                                <li>
+                                    <div class="score"><strong>0.0</strong></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- /bg_gray -->
+
+        <div class="shape_element_2">
+            <div class="container margin_60_0">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_1.svg" alt="" width="150" height="167"
+                                            class="lazy"></figure>
+                                    <h3>Easly Order</h3>
+                                    <p>Order your favorite meals from cloud kitchens, tiffin services, cafés, and stalls
+                                        with just a few clicks. Enjoy a seamless and hassle-free experience.</p>
+                                </div>
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_2.svg" alt="" width="130" height="145"
+                                            class="lazy"></figure>
+                                    <h3>Quick Delivery</h3>
+                                    <p>Get your food delivered fresh and fast! Our efficient delivery system ensures
+                                        your meal reaches you hot and on time.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_3.svg" alt="" width="150" height="132"
+                                            class="lazy"></figure>
+                                    <h3>Enjoy Food</h3>
+                                    <p>Relish delicious and hygienic food made with the finest ingredients. Whether it's
+                                        homemade tiffins, café delights, or street food, we bring the best to your
+                                        table.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="d-block d-lg-none text-center mt-3"><a href="{% url 'users:browse_shops' %}"
+                                class="btn_1 gradient medium mt-2 pulse_bt">Register Now!</a></p>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 align-self-center">
+                        <div class="intro_txt">
+                            <div class="main_title">
+                                <span><em></em></span>
+                                <h2>Start Ordering Now</h2>
+                            </div>
+                            <p class="lead">Discover a wide range of cuisines and flavors from top-rated cloud kitchens,
+                                local cafés, and home-style tiffin services.</p>
+                            <p> Place your order now and enjoy a delightful meal at your convenience.</p>
+                            <p><a href="{% url 'users:browse_shops' %}" 
+                                    class="btn_1 gradient medium mt-2 pulse_bt">Register</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /shape_element_2 -->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="center main_title my-5">
+                    <span><em></em></span>
+                    <h2 style="margin-bottom: 0;">Frequent questions</h2>
+                    <p>Here you'll be able find answers your questions</p>
+                </div>
+
+                <div role="tablist" class="accordion_2 add_bottom_15" id="accordion_group">
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                    <i class="icon_minus-06 indicator"></i>What is this Food Ordering System?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Our food ordering system is an online platform that allows customers to browse menus,
+                                    place orders, and make payments conveniently from their homes or workplaces.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseTwo"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I place an order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Simply browse our menu, select your desired items, add them to the cart, and proceed
+                                    to checkout to complete your order.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseThree"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What payment methods are accepted?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>We accept various payment methods, including credit/debit cards, UPI, digital
+                                    wallets, and cash on delivery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFour"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Can I cancel or modify my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Yes, you can cancel or modify your order before it is prepared. Once the restaurant
+                                    starts processing it, changes may not be possible.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFive"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I track my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Once your order is placed, you can track its status in real-time through our tracking
+                                    feature.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSix"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What if I receive the wrong or missing items?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSix" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>If you receive an incorrect or incomplete order, please contact our customer support
+                                    immediately to resolve the issue.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSeven"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Is there a delivery charge?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSeven" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Delivery charges may apply based on your location and the restaurant's policy.
+                                    Details will be provided during checkout.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseEight"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I contact customer support?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseEight" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>You can reach our customer support team via phone, email, or live chat available on
+                                    our website.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /accordion group -->
+            </div>
+            <!-- /col -->
+        </div>
+
+    </main>
+    <!-- /main -->
+
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+                      
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+            </div>
+            <!-- /row-->
+
+        </div>
+    </footer>
+    <!--/footer-->
+
+    <div id="toTop"></div>
+    <!-- Back to top button -->
+
+
+
+    <!-- COMMON SCRIPTS -->
+    <script src="../static/js/common_scripts.min.js"></script>
+    <script src="../static/js/common_func.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/validate.js"></script>
+
+    <!-- Video header -->
+    <script src="../static/js/modernizr.min.js"></script>
+    <script src="../static/js/video_header.min.js"></script>
+    <script>
+        HeaderVideo.init({
+            container: $('.header-video'),
+            header: $('.header-video--media'),
+            videoTrigger: $("#video-trigger"),
+            autoPlayVideo: true
+        });
+    </script>
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+  
+
+<script>
+    console.log('Home page loaded');
+    console.log('User email:', '{{ request.user.email }}');
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Home page loaded');
+        console.log('User email:', '{{ request.user.email }}');
+
+        const isAuthenticated = "{{ request.user.is_authenticated|yesno:'true,false' }}";
+        console.log('User authenticated via session:', isAuthenticated);
+
+        if (isAuthenticated === 'false') {
+            console.log('User not authenticated. Redirecting to landing page.');
+            window.location.replace('/');
+            return;
+        }
+        function fetchUserData() {
+            return fetch('/api/user/session/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include' 
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log('User data on Home page:', data.user);
+                    const userDataDiv = document.getElementById('user-data');
+                    userDataDiv.innerHTML = `
+                        <p>ID: ${data.user.id}</p>
+                        <p>Email: ${data.user.email}</p>
+                        <p>First Name: ${data.user.first_name}</p>
+                        <p>Last Name: ${data.user.last_name}</p>
+                    `;
+                } else {
+                    throw new Error(data.detail || 'Failed to fetch user data');
+                }
+            });
+        }
+        fetchUserData()
+            .catch(error => {
+                console.error('Error fetching user data on Home page:', error.message);
+                const userDataDiv = document.getElementById('user-data');
+                userDataDiv.innerHTML = '<p>Error fetching user data.</p>';
+            });
+    });
+</script>
+
+</body>
+
+</html>

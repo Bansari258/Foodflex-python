@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - FoodFlex</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .icon_cart_alt{
+            font-size: 1.5rem;
+            color: #fff;
+            position: relative;
+            top: 8px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header class="clearfix header_in">
+        <div class="container">
+            <div id="logo">
+                <a href="{% url 'users:home' %}">
+                    <img src="{% static 'img/logo-black.png' %}" width="150" height="40" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+            <ul id="top_menu">
+                <li>
+                    <a href="{% url 'users:order' vendor_id=vendor_id|default:1 %}?order={{ order_json|urlencode }}" class="icon_cart_alt" title="View Cart"></a>
+                </li>
+                <li><a href="{% url 'users:profile' %}" class="user_2" title="My Account"></a></li>
+            </ul>
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'users:home' %}"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                    <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                    <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'users:help' %}">Help</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container margin_60_35 my-5">
+            <form method="POST" action="{% url 'users:confirm' %}">
+                {% csrf_token %}
+                <input type="hidden" name="vendor_id" value="{{ vendor.id }}">
+                <input type="hidden" name="order" id="order-input" value='{{ order_json|safe }}'>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="box_order_form">
+                            <div class="head">
+                                <h3>Billing Information</h3>
+                            </div>
+                            <div class="main">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" type="text" name="first_name"
+                                        value="{{ initial_data.first_name|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" type="text" name="last_name"
+                                        value="{{ initial_data.last_name|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input class="form-control" type="text" name="phone"
+                                        value="{{ initial_data.phone|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input class="form-control" type="text" name="address"
+                                        value="{{ initial_data.address|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>City</label>
+                                    <input class="form-control" type="text" name="city"
+                                        value="{{ initial_data.city|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Postal Code</label>
+                                    <input class="form-control" type="text" name="postal_code"
+                                        value="{{ initial_data.postal_code|default:'' }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Payment Method</label>
+                                    <select class="form-control" name="payment_method" required>
+                                        <option value="cash">Cash on Delivery</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="box_order_form">
+                            <div class="head">
+                                <h3>Order Summary</h3>
+                            </div>
+                            <div class="main">
+                                <ul id="order-summary-list-{{ vendor.id }}">
+                                    {% if order %}
+                                    {% for item_id, details in order.items %}
+                                    <li>
+                                        <a href="javascript:void(0)">{{ details.qty }}x {{ details.name }}</a>
+                                        <span>₹{{ details.total }}</span>
+                                    </li>
+                                    {% endfor %}
+                                    {% else %}
+                                    <li><em>No items in order</em></li>
+                                    {% endif %}
+                                </ul>
+                                <hr>
+                                <p>Subtotal: <span id="subtotal-{{ vendor.id }}">₹0.00</span></p>
+                                <p>Delivery Fee: <span id="delivery-fee-{{ vendor.id }}">₹0.00</span></p>
+                                <p>Total: <span id="total-{{ vendor.id }}">₹0.00</span></p>
+                                <button type="submit" class="btn_1 full-width gradient">Confirm Order</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+            </div>
+            <!-- /row-->
+
+        </div>
+    </footer>
+
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let order = JSON.parse('{{ order_json|safe }}');
+            const menuItems = JSON.parse('{{ menu_items_json|safe }}');
+
+            document.getElementById('order-input').value = JSON.stringify(order);
+
+            let subtotal = 0;
+            let deliveryFee = 0;
+            let total = 0;
+
+            if (Object.keys(order).length > 0) {
+                for (let [itemId, details] of Object.entries(order)) {
+                    const item = menuItems.find(i => i.id === parseInt(itemId));
+                    if (item) {
+                        subtotal += details.total;
+                    }
+                }
+            }
+
+            const hasDelivery = '{{ vendor.delivery|yesno:"true,false" }}' === 'true';
+            deliveryFee = subtotal > 0 && hasDelivery ? 10.00 : 0.00;
+            total = subtotal + deliveryFee;
+
+            document.getElementById('subtotal-{{ vendor.id }}').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('delivery-fee-{{ vendor.id }}').textContent = `₹${deliveryFee.toFixed(2)}`;
+            document.getElementById('total-{{ vendor.id }}').textContent = `₹${total.toFixed(2)}`;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'vendorPanel/img/favicon.png' %}" type="">
+    <title>FoodFlex - Vendor Orders</title>
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'vendorPanel/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="{% static 'vendorPanel/css/admin.css' %}" rel="stylesheet">
+    <!-- Icon fonts-->
+    <link href="{% static 'vendorPanel/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Plugin styles -->
+    <link href="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <!-- Your custom styles -->
+    <link href="{% static 'vendorPanel/css/custom.css' %}" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top shadow" id="mainNav">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav shadow" id="exampleAccordion">
+                <div class="sidenav-top">
+                    <a class="navbar-brand" href="{% url 'vendor:vendor_home' %}">
+                        <img src="{% static 'vendorPanel/img/logo.png' %}" alt="" width="150" height="36">
+                    </a>
+                    <ul class="navbar-nav sidenav-toggler">
+                        <li class="nav-item">
+                            <a class="nav-link text-center" id="sidenavToggler">
+                                <i class="fa fa-fw fa-angle-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_home' %}">
+                        <i class="fa fa-fw fa-tachometer"></i>
+                        <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'vendor:orders' %}">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="nav-link-text">Orders</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:menu' %}">
+                        <i class="fa fa-fw fa-cutlery"></i>
+                        <span class="nav-link-text">Menu Management</span>
+                    </a>
+                </li>
+               
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span class="nav-link-text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:earnings' %}">
+                        <i class="fa fa-fw fa-money-check-dollar"></i>
+                        <span class="nav-link-text">Earnings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span class="nav-link-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Top Right Navbar -->
+          <ul class="navbar-nav ml-auto" id="navtop">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-user text-orange"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-orange" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out-alt text-orange"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+           
+
+            <!-- Ongoing Orders Table -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> Ongoing Orders
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="ongoingTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Restaurant</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in ongoing_orders %}
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.vendor.restaurant_name }}</td>
+                                        <td>{{ order.user_name }}</td>
+                                        <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                                        <td><i class="pending">{{ order.status|title }}</i></td>
+                                        <td>₹{{ order.total_amount }}</td>
+                                        <td>
+                                            <a href="{% url 'vendor:complete_order' order.id %}" class="btn btn-sm btn-success">Complete</a>
+                                            <a href="{% url 'vendor:cancel_order' order.id %}" class="btn btn-sm btn-danger">Cancel</a>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="7">No ongoing orders.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated at {{ current_time|date:"d/m/Y H:i" }}</div>
+            </div>
+
+            <!-- Completed Orders Table -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> Completed Orders
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="completedTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Restaurant</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in completed_orders %}
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.vendor.restaurant_name }}</td>
+                                        <td>{{ order.user_name }}</td>
+                                        <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                                        <td><i class="approved">{{ order.status|title }}</i></td>
+                                        <td>₹{{ order.total_amount }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="6">No completed orders.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated at {{ current_time|date:"d/m/Y H:i" }}</div>
+            </div>
+
+            <!-- Cancelled Orders Table -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-table"></i> Cancelled Orders
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="cancelledTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Restaurant</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in cancelled_orders %}
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.vendor.restaurant_name }}</td>
+                                        <td>{{ order.user_name }}</td>
+                                        <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                                        <td><i class="cancel">{{ order.status|title }}</i></td>
+                                        <td>₹{{ order.total_amount }}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="6">No cancelled orders.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated at {{ current_time|date:"d/m/Y H:i" }}</div>
+            </div>
+
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+    
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/chart.js/Chart.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'vendorPanel/js/admin.js' %}"></script>
+    <!-- Custom scripts for this page-->
+    <script src="{% static 'vendorPanel/js/admin-charts.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#ongoingTable').DataTable();
+            $('#completedTable').DataTable();
+            $('#cancelledTable').DataTable();
+        });
+    </script>
+</body>
+
+</html>

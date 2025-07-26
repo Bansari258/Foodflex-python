@@ -1,0 +1,154 @@
+/*============================================================================================*/
+
+/* Your custom styles below */
+
+/*============================================================================================*/
+.wrap-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 30px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(to right, #f3723b, #e54750);  }
+  
+  .wrap-icon > span {
+    font-size: 2.2rem;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .service-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 270px;
+    cursor: pointer;
+  }
+  .service-block:hover {
+    background-image: linear-gradient(to right, #f3723b, #e54750);  
+    transform: translateY(-5px);
+    color: #fff;
+}
+.service-block:hover .wrap-icon {
+  transform: scale(1.2);
+  background-image:  linear-gradient(to right , #ffffff, #ffffffe8) !important ;
+}
+.service-block:hover .wrap-icon > span{
+  color: #e54750;
+}
+.service-block:hover h4,
+.service-block:hover p {
+    color: #fff;
+}
+.service-block:hover .wrap-icon {
+  transform: scale(1.2);
+}
+
+  .subscribe-wrapper {
+    background-image: url("../img/ad-ban-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .hero-text {
+    height: 100%;
+    align-items: center;
+    display: flex;
+  }
+  
+  .subscribe {
+    padding: 100px 0;
+    background: #0000007d;
+    position: relative;
+  }
+  
+  .content-subs {
+    z-index: 5;
+  }
+  
+  .subscribe::before {
+    content: "";
+    clip-path: polygon(0% 0%, 100% 0%, 76% 100%, 0% 100%);
+    background-image: -webkit-linear-gradient(left, #fb5f1d, #e54750);
+    background-image: linear-gradient(to left, #fb5f1d, #e54750);  
+    /* background: #e54750; */
+    height: 100%;
+    display: block;
+    width: 60%;
+    position: absolute;
+    top: 0;
+  }
+  .subscribe-wrapper-1 .subscribe::before {
+    display: none;
+  }
+  .contact-area-2 .form-control:focus {
+    border-color: #79a1bb;
+  }
+  .subscribe-wrapper-1 .form-control {
+    padding: 0.775rem 0.75rem;
+    border-radius: 0;
+  }
+  
+  .subs-des {
+    color: #fff;
+    font-size: 15px;
+  }
+  
+  .input-group-text {
+    border: none;
+    border-radius: 0;
+  }
+  
+  .hero-text {
+    align-items: center;
+    display: flex;
+  }
+  
+  .hero-form {
+    width: 100%;
+  }
+  .overlay_hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay_hero h1 {
+    font-size: 60px !important;
+    line-height: 1 !important;
+    font-weight: 500 !important;
+    letter-spacing: -1px;
+    font-family: Poppins, Helvetica !important;
+}
+
+.overlay_hero p {
+    margin-top: 25px;
+    font-size: 20px !important;
+    min-width: 386px;
+    max-width: 386px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.overlay_hero button {
+    border-radius: 100px !important;
+    font-size: 12px !important;
+    padding: 10px 30px !important;
+}
+
+.icon_cart_alt{
+  font-size: 1.5rem;
+  color: #fff;
+  position: relative;
+  top: 8px;
+
+}

@@ -1,0 +1,804 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="">
+    <title>FoodFlex - Advanced Food Ordering System</title>
+    <!-- BASE CSS -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/custom.css" rel="stylesheet">
+    <link href="../static/css/vegas.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="clearfix element_to_stick header">
+        <div class="container">
+            <div id="logo">
+                <a href="{% url 'users:landing' %}">
+                    <img src="../static/img/logo.png" width="132" height="35" alt="" class="logo_normal">
+                    <img src="../static/img/logo-black.png" width="132" height="35" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'users:landing' %}"><img src="../static/img/logo.png" width="162" height="35"
+                            alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'users:landing' %}">Home</a></li>
+                    <li><a href="{% url 'vendor:vendor_landing' %}">Add restaurant</a></li>
+                    <li><a href="{% url 'users:signup' %}">Sign up</a></li>
+                    <li><a href="#sign-in-dialog" id="sign-in" class="sign-in">Sign In</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- /header -->
+
+    <main>
+        <div class="hero_single kenburns_slider version_2" style="background: none;">
+            <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+                <div class="overlay_hero">
+                    <h1>Discover</h1>
+                    <h1>great food</h1>
+                    <p>Explore top rated restaurants and bars around the world!</p>
+                    <button class="btn_1 btn_hero sign-in" id="sign-in" onclick="getstarted()">GET STARTED</button>
+                </div>
+            </div>
+            <div class="hero wave"></div>
+        </div>
+
+        <div class="container margin_60">
+            <div class="center main_title">
+                <span><em></em></span>
+                <h2>Popular Categories</h2>
+                <p>Discover the most loved dishes from your favorite local vendors and kitchens!</p>
+            </div>
+            <!-- /main_title -->
+
+            <div class="categories_carousel owl-carousel owl-theme">
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_pizza.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Pizza</h3>
+                                <small>Avg price ₹350</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Japanese</h3>
+                                <small>Avg price ₹450</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Burgers</h3>
+                                <small>Avg price ₹250</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Vegetarian</h3>
+                                <small>Avg price ₹200</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_sushi.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Bakery</h3>
+                                <small>Avg price ₹300</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_hamburgher.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Chinese</h3>
+                                <small>Avg price ₹280</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+                <div class="item_version_2">
+                    <a href="#sign-in-dialog" class="sign-in">
+                        <figure>
+                            <img src="../static/img/home_cat_placeholder.jpg"
+                                data-src="../static/img/home_cat_vegetarian.jpg" alt="" class="owl-lazy" width="350"
+                                height="450">
+                            <div class="info">
+                                <h3>Mexican</h3>
+                                <small>Avg price ₹320</small>
+                            </div>
+                        </figure>
+                    </a>
+                </div>
+            </div>
+
+            <!-- /carousel -->
+        </div>
+        <!-- /container -->
+
+        <div class="bg_gray">
+            <div class="container margin_60_40">
+                <div class="main_title">
+                    <span><em></em></span>
+                    <h2>Top Rated Restaurants</h2>
+                    <p>Experience the finest flavors from the highest-rated restaurants near you!</p>
+                    <a href="#sign-in-dialog" class="sign-in">View All &rarr;</a>
+                </div>
+                <div class="row add_bottom_25">
+                    <div class="col-lg-6">
+                        <div class="list_home">
+                            <ul>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_1.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>9.5</strong></div>
+                                        <em>North Indian</em>
+                                        <h3>The Royal Tandoor</h3>
+                                        <small>12 MG Road, Bengaluru 560001</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-30%</span></li>
+                                            <li>Average price ₹500</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_2.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>8.0</strong></div>
+                                        <em>Mexican</em>
+                                        <h3>Nacho Nation</h3>
+                                        <small>45 Connaught Place, New Delhi 110001</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-40%</span></li>
+                                            <li>Average price ₹450</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_3.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>9.0</strong></div>
+                                        <em>Sushi - Japanese</em>
+                                        <h3>Sakura Bites</h3>
+                                        <small>78 Park Street, Kolkata 700016</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-25%</span></li>
+                                            <li>Average price ₹600</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="list_home">
+                            <ul>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_4.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>9.5</strong></div>
+                                        <em>Vegetarian</em>
+                                        <h3>Green Bites Café</h3>
+                                        <small>25 FC Road, Pune 411004</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-30%</span></li>
+                                            <li>Average price ₹350</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_5.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>8.0</strong></div>
+                                        <em>Chinese</em>
+                                        <h3>Wok & Roll</h3>
+                                        <small>18 Banjara Hills, Hyderabad 500034</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-50%</span></li>
+                                            <li>Average price ₹400</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sign-in-dialog" class="sign-in">
+                                        <figure>
+                                            <img src="../static/img/location_list_placeholder.png"
+                                                data-src="../static/img/location_list_6.jpg" alt="" class="lazy"
+                                                width="350" height="233">
+                                        </figure>
+                                        <div class="score"><strong>8.5</strong></div>
+                                        <em>Pizza - Italian</em>
+                                        <h3>Napoli Pizzeria</h3>
+                                        <small>90 SG Highway, Ahmedabad 380054</small>
+                                        <ul>
+                                            <li><span class="off ribbon">-45%</span></li>
+                                            <li>Average price ₹550</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /row -->
+                <div class="banner lazy" data-bg="url(../static/img/banner_bg_desktop.jpg)">
+                    <div class="d-flex align-items-center opacity-mask wrapper" data-opacity-mask="rgba(0, 0, 0, 0.3)">
+                        <div>
+                            <small>FoodFlex Delivery</small>
+                            <h3>We Deliver to your Office</h3>
+                            <p>Enjoy a tasty food in minutes!</p>
+                            <a href="#sign-in-dialog" class="btn_1 gradient sign-in">Start Now!</a>
+                        </div>
+                    </div>
+                    <!-- /wrapper -->
+                </div>
+                <!-- /banner -->
+            </div>
+        </div>
+        <!-- /bg_gray -->
+
+        <div class="shape_element_2">
+            <div class="container margin_60_0">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_1.svg" alt="" width="150" height="167"
+                                            class="lazy"></figure>
+                                    <h3>Easly Order</h3>
+                                    <p>Order your favorite meals from cloud kitchens, tiffin services, cafés, and stalls
+                                        with just a few clicks. Enjoy a seamless and hassle-free experience.</p>
+                                </div>
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_2.svg" alt="" width="130" height="145"
+                                            class="lazy"></figure>
+                                    <h3>Quick Delivery</h3>
+                                    <p>Get your food delivered fresh and fast! Our efficient delivery system ensures
+                                        your meal reaches you hot and on time.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 align-self-center">
+                                <div class="box_how">
+                                    <figure><img src="../static/img/lazy-placeholder-100-100-white.png"
+                                            data-src="../static/img/how_3.svg" alt="" width="150" height="132"
+                                            class="lazy"></figure>
+                                    <h3>Enjoy Food</h3>
+                                    <p>Relish delicious and hygienic food made with the finest ingredients. Whether it's
+                                        homemade tiffins, café delights, or street food, we bring the best to your
+                                        table.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="d-block d-lg-none text-center mt-3"><a href="#sign-in-dialog"
+                                class="btn_1 gradient medium mt-2 pulse_bt sign-in">Register Now!</a></p>
+                    </div>
+                    <div class="col-lg-5 offset-lg-1 align-self-center">
+                        <div class="intro_txt">
+                            <div class="main_title">
+                                <span><em></em></span>
+                                <h2>Start Ordering Now</h2>
+                            </div>
+                            <p class="lead">Discover a wide range of cuisines and flavors from top-rated cloud kitchens,
+                                local cafés, and home-style tiffin services.</p>
+                            <p> Place your order now and enjoy a delightful meal at your convenience.</p>
+                            <p><a href="#sign-in-dialog" id="sign-in"
+                                    class="btn_1 gradient medium mt-2 pulse_bt sign-in">Register</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /shape_element_2 -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="center main_title my-5">
+                    <span><em></em></span>
+                    <h2 style="margin-bottom: 0;">Frequent questions</h2>
+                    <p>Here you'll be able find answers your questions</p>
+                </div>
+
+                <div role="tablist" class="accordion_2 add_bottom_15" id="accordion_group">
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                    <i class="icon_minus-06 indicator"></i>What is this Food Ordering System?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Our food ordering system is an online platform that allows customers to browse menus,
+                                    place orders, and make payments conveniently from their homes or workplaces.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseTwo"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I place an order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Simply browse our menu, select your desired items, add them to the cart, and proceed
+                                    to checkout to complete your order.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseThree"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What payment methods are accepted?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>We accept various payment methods, including credit/debit cards, UPI, digital
+                                    wallets, and cash on delivery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFour"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Can I cancel or modify my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Yes, you can cancel or modify your order before it is prepared. Once the restaurant
+                                    starts processing it, changes may not be possible.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFive"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I track my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Once your order is placed, you can track its status in real-time through our tracking
+                                    feature.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSix"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What if I receive the wrong or missing items?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSix" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>If you receive an incorrect or incomplete order, please contact our customer support
+                                    immediately to resolve the issue.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSeven"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Is there a delivery charge?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSeven" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Delivery charges may apply based on your location and the restaurant's policy.
+                                    Details will be provided during checkout.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseEight"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I contact customer support?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseEight" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>You can reach our customer support team via phone, email, or live chat available on
+                                    our website.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /accordion group -->
+            </div>
+            <!-- /col -->
+        </div>
+    </main>
+    <!-- /main -->
+
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+            </div>
+            <!-- /row-->
+
+        </div>
+    </footer>
+    <!--/footer-->
+
+    <div id="toTop"></div>
+    <!-- Back to top button -->
+
+    <!-- Sign In Modal -->
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+        <div class="modal_header">
+            <h3>Sign In</h3>
+        </div>
+        <form id="login-form" method="POST">
+            {% csrf_token %}
+            <div class="sign-in-wrapper">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" name="email" id="email" required>
+                    <i class="icon_mail_alt"></i>
+                    <span class="error" id="email-error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                    <i class="icon_lock_alt"></i>
+                    <span class="error" id="password-error"></span>
+                </div>
+                <div class="text-center">
+                    <input type="button" value="Log In" id="submit-login" class="btn_1 full-width mb_5">
+                    Don’t have an account? <a href="{% url 'users:signup' %}">Sign up</a>
+                </div>
+                <div id="forgot_pw" style="display: none;">
+                    <div class="form-group">
+                        <label>Please confirm login email below</label>
+                        <input type="email" class="form-control" name="email_forgot" id="email_forgot">
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+                    <div class="text-center">
+                        <input type="submit" value="Reset Password" class="btn_1">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div id="login-message" class="text-center mt-3"></div>
+    </div>
+
+
+    <script src="../static/js/common_scripts.min.js"></script>
+    <script src="../static/js/common_func.js"></script>
+    <script src="../static/js/validate.js"></script>
+    <script src="../static/js/vegas.min.js"></script>
+
+    <script>
+        $(function () {
+            "use strict";
+            $('.kenburns_slider').vegas({
+                slides: [{
+                    src: '../static/img/slides/slide_3.jpg'
+                },
+                {
+                    src: '../static/img/slides/slide_4.jpg'
+                },
+                {
+                    src: '../static/img/slides/slide_5.jpg'
+                }],
+                overlay: false,
+                transition: 'fade2',
+                animation: 'kenburnsUpRight',
+                transitionDuration: 1000,
+                delay: 4000,
+                animationDuration: 70000
+            });
+        });
+    </script>
+    <script>
+        function getstarted() {
+            window.location.href = "#sign-in-dialog";
+        }
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginButton = document.querySelector('#submit-login');
+        if (loginButton) {
+            loginButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log('Login form submitted');
+                // Clear previous error messages
+                document.querySelectorAll('.error').forEach(el => el.textContent = '');
+                document.querySelector('#login-message').textContent = '';
+    
+                // Collect form data
+                const formData = {
+                    email: document.querySelector('#login-form input[name="email"]').value.trim(),
+                    password: document.querySelector('#login-form input[name="password"]').value.trim()
+                };
+                console.log('Login form data:', formData);
+    
+                // Client-side validation
+                let hasErrors = false;
+    
+                // Check for empty fields
+                for (const [key, value] of Object.entries(formData)) {
+                    if (!value) {
+                        const errorSpan = document.querySelector(`#${key}-error`);
+                        if (errorSpan) {
+                            errorSpan.style.color = 'red';
+                            errorSpan.textContent = 'This field may not be blank.';
+                        }
+                        hasErrors = true;
+                    }
+                }
+    
+                // Email format validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (formData.email && !emailRegex.test(formData.email)) {
+                    const errorSpan = document.querySelector('#email-error');
+                    if (errorSpan) {
+                        errorSpan.style.color = 'red';
+                        errorSpan.textContent = 'Please enter a valid email address.';
+                    }
+                    hasErrors = true;
+                }
+    
+                // If there are client-side errors, display a general message but still proceed with the API request
+                if (hasErrors) {
+                    document.querySelector('#login-message').style.color = 'red';
+                    document.querySelector('#login-message').textContent = 'Please correct the errors below.';
+                }
+    
+                // Proceed with API request regardless of client-side errors (let the server validate too)
+                fetch("{% url 'users:api_login' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    console.log('Login response status:', response.status);
+                    console.log('Login response headers:', response.headers.get('Content-Type'));
+                    if (response.status === 403) {
+                        throw new Error('CSRF validation failed. Please ensure the CSRF token is correct.');
+                    }
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.error(`HTTP error! Status: ${response.status}, Response:`, text);
+                            throw new Error(`HTTP error! Status: ${response.status}, Response: ${text}`);
+                        });
+                    }
+                    if (!response.headers.get('Content-Type')?.includes('application/json')) {
+                        return response.text().then(text => {
+                            console.error('Expected JSON, but received:', text);
+                            throw new Error('Response is not JSON');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const messageDiv = document.querySelector('#login-message');
+                    console.log('Login response:', data);
+                    if (data.success) {
+                        // Display success message
+                        messageDiv.style.color = 'green';
+                        messageDiv.textContent = data.message || 'Login successful! Redirecting...';
+    
+                        // Store tokens in localStorage
+                        localStorage.setItem('access_token', data.data.access);
+                        localStorage.setItem('refresh_token', data.data.refresh);
+                        console.log('Tokens set after login:', {
+                            access_token: localStorage.getItem('access_token'),
+                            refresh_token: localStorage.getItem('refresh_token')
+                        });
+    
+                        // Redirect to home page
+                        console.log('Attempting to redirect to /home after login');
+                        setTimeout(() => {
+                            window.location.href = data.redirect_url || "{% url 'users:home' %}";
+                        }, 1000); // Delay for 1 second to show the success message
+                    } else {
+                        // Display the main error message in the message div
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = data.message || 'Login failed';
+    
+                        // If there are field-specific errors, display them
+                        if (data.errors) {
+                            for (let field in data.errors) {
+                                const errorSpan = document.querySelector(`#${field}-error`);
+                                if (errorSpan) {
+                                    errorSpan.style.color = 'red';
+                                    const errorMessage = Array.isArray(data.errors[field]) 
+                                        ? data.errors[field].join(' ') 
+                                        : data.errors[field];
+                                    errorSpan.textContent = errorMessage;
+                                }
+                            }
+                        } else if (data.message && data.message.toLowerCase().includes('invalid')) {
+                            // If no field-specific errors but the message indicates invalid credentials
+                            const emailErrorSpan = document.querySelector('#email-error');
+                            const passwordErrorSpan = document.querySelector('#password-error');
+                            if (emailErrorSpan && passwordErrorSpan) {
+                                emailErrorSpan.style.color = 'red';
+                                passwordErrorSpan.style.color = 'red';
+                                emailErrorSpan.textContent = data.message;
+                                passwordErrorSpan.textContent = data.message;
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+                    const messageDiv = document.querySelector('#login-message');
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = error.message || 'An unexpected error occurred. Please try again.';
+                });
+            });
+        }
+    });
+    </script>
+
+</body>
+
+</html>

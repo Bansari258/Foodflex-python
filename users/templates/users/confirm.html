@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - FoodFlex</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header class="clearfix header_in">
+        <div class="container">
+            <div id="logo">
+                <a href="{% url 'users:home' %}">
+                    <img src="{% static 'img/logo-black.png' %}" width="150" height="40" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+            <ul id="top_menu">
+                <li>
+                    <a href="{% url 'users:order' vendor_id=vendor_id|default:1 %}?order={{ order_json|urlencode }}" class="icon_cart_alt" title="View Cart"></a>
+                </li>
+                <li><a href="{% url 'users:profile' %}" class="user_2" title="My Account"></a></li>
+            </ul>
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'users:home' %}"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                    <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                    <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'users:help' %}">Help</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container margin_60_35">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="box_order_form">
+                        <div class="head">
+                            <h3>Billing Information</h3>
+                        </div>
+                        <div class="main">
+                            <p><strong>Name:</strong> {{ name }}</p>
+                            <p><strong>Email:</strong> {{ email }}</p>
+                            <p><strong>Phone:</strong> {{ phone }}</p>
+                            <p><strong>Address:</strong> {{ address }}, {{ city }}, {{ postal_code }}</p>
+                            <p><strong>Payment Method:</strong> {{ payment_method }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box_order_form">
+                        <div class="head">
+                            <h3>Order Summary</h3>
+                        </div>
+                        <div class="main">
+                            <ul>
+                                {% for item_id, details in order.items %}
+                                    <li>
+                                        <a href="javascript:void(0)">{{ details.qty }}x {{ details.name }}</a>
+                                        <span>₹{{ details.total }}</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <hr>
+                            <p>Subtotal: ₹{{ order|length|default:0 }}</p>
+                            <p>Delivery Fee: ₹{{ vendor.delivery|yesno:"10.00,0.00" }}</p>
+                            <p>Total: ₹{{ order|length|default:0|add:vendor.delivery|yesno:"10.00,0.00" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'users:home' %}" class="btn_1 gradient">Back to Home</a>
+        </div>
+    </main>
+
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>FoodFlex - Menu Setup</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .menu-item-list { margin-top: 20px; }
+        .menu-item-list ul { list-style-type: none; padding: 0; }
+        .menu-item-list li { padding: 10px; border-bottom: 1px solid #ddd; }
+        .error { color: red; }
+        #menu-message { margin-top: 10px; }
+        .menu-item { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form enctype="multipart/form-data" id="vendor-menu-setup-form" class="full-page-form shadow p-5 rounded-2">
+            {% csrf_token %}
+            <h4>Add Menu Items</h4>
+            <div id="menu-item-form" class="menu-item" data-index="0">
+                <h5>Menu Item Entry</h5>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Item Name" name="menu_items[0][name]" id="menu_name" required>
+                    <span class="error" id="menu_name-error"></span>
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="Price" name="menu_items[0][price]" id="menu_price" step="0.01" required>
+                    <span class="error" id="menu_price-error"></span>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Description (optional)" name="menu_items[0][description]" id="menu_description" rows="2"></textarea>
+                    <span class="error" id="menu_description-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="menu_image">Item Image (optional)</label>
+                    <input type="file" class="form-control" name="menu_items[0][image]" id="menu_image">
+                    <span class="error" id="menu_image-error"></span>
+                </div>
+                <div class="form-group">
+                    <label>Available:</label>
+                    <input type="checkbox" name="menu_items[0][is_available]" id="menu_is_available" value="true" checked>
+                    <span class="error" id="menu_is_available-error"></span>
+                </div>
+            </div>
+            <div class="form-group text-center mt-3">
+                <button type="button" class="btn_1 gradient" id="add-menu-item">Add Item</button>
+            </div>
+            <div class="form-group text-center mt-5">
+                <input type="submit" class="btn_1 gradient" value="Save & Finish" id="submit-menu">
+            </div>
+        </form>
+        <div class="menu-item-list">
+            <h5>Added Items</h5>
+            <ul id="menu-item-list"></ul>
+        </div>
+        <div id="menu-message" class="text-center mt-3"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Menu setup script loaded');
+            console.log('Token from localStorage:', localStorage.getItem('access_token'));
+
+            const menuForm = document.querySelector('#vendor-menu-setup-form');
+            const menuItemList = document.querySelector('#menu-item-list');
+            let itemCount = 0;
+            let items = [];
+
+            function clearForm() {
+                document.getElementById('menu_name').value = '';
+                document.getElementById('menu_price').value = '';
+                document.getElementById('menu_description').value = '';
+                document.getElementById('menu_image').value = '';
+                document.getElementById('menu_is_available').checked = true;
+                itemCount++;
+                updateFormIndex();
+            }
+
+            function updateFormIndex() {
+                document.getElementById('menu_name').name = `menu_items[${itemCount}][name]`;
+                document.getElementById('menu_price').name = `menu_items[${itemCount}][price]`;
+                document.getElementById('menu_description').name = `menu_items[${itemCount}][description]`;
+                document.getElementById('menu_image').name = `menu_items[${itemCount}][image]`;
+                document.getElementById('menu_is_available').name = `menu_items[${itemCount}][is_available]`;
+            }
+
+            function updateMenuItemList() {
+                menuItemList.innerHTML = '';
+                items.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${item.name} - $${item.price}`;
+                    menuItemList.appendChild(li);
+                });
+            }
+
+            document.getElementById('add-menu-item').addEventListener('click', function() {
+                const name = document.getElementById('menu_name').value;
+                const price = document.getElementById('menu_price').value;
+
+                if (name && price) {
+                    items.push({
+                        name: name,
+                        price: price,
+                        description: document.getElementById('menu_description').value,
+                        is_available: document.getElementById('menu_is_available').checked
+                    });
+                    updateMenuItemList();
+                    clearForm();
+                    console.log('Item added to list:', items);
+                } else {
+                    document.getElementById('menu-message').style.color = 'red';
+                    document.getElementById('menu-message').textContent = 'Please fill in Name and Price.';
+                }
+            });
+
+            if (menuForm) {
+                menuForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    console.log('Menu setup form submission intercepted');
+                    document.querySelectorAll('.error').forEach(el => el.textContent = '');
+                    document.querySelector('#menu-message').textContent = '';
+
+                    const formData = new FormData(menuForm);
+                    console.log('Current form data:', Object.fromEntries(formData));
+
+                    // Add current form item if filled
+                    const name = document.getElementById('menu_name').value;
+                    const price = document.getElementById('menu_price').value;
+                    if (name && price) {
+                        items.push({
+                            name: name,
+                            price: price,
+                            description: document.getElementById('menu_description').value,
+                            is_available: document.getElementById('menu_is_available').checked
+                        });
+                    }
+
+                    // Rebuild formData with all items
+                    formData.delete(`menu_items[${itemCount}][name]`);
+                    formData.delete(`menu_items[${itemCount}][price]`);
+                    formData.delete(`menu_items[${itemCount}][description]`);
+                    formData.delete(`menu_items[${itemCount}][image]`);
+                    formData.delete(`menu_items[${itemCount}][is_available]`);
+                    items.forEach((item, index) => {
+                        formData.append(`menu_items[${index}][name]`, item.name);
+                        formData.append(`menu_items[${index}][price]`, item.price);
+                        formData.append(`menu_items[${index}][description]`, item.description || '');
+                        formData.append(`menu_items[${index}][is_available]`, item.is_available ? 'true' : 'false');
+                        // Image already in formData if uploaded
+                    });
+
+                    console.log('Final menu setup data:', Object.fromEntries(formData));
+
+                    const token = localStorage.getItem('access_token');
+                    if (!token) {
+                        console.error('No token found in localStorage');
+                        document.querySelector('#menu-message').style.color = 'red';
+                        document.querySelector('#menu-message').textContent = 'Authentication token not found. Please sign up again.';
+                        return;
+                    }
+
+                    try {
+                        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                        console.log('CSRF token:', csrfToken);
+
+                        const response = await fetch("{% url 'vendor:api_menu_setup' %}", {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRFToken': csrfToken,
+                                'Authorization': `Bearer ${token}`
+                            },
+                        });
+
+                        console.log('Response status:', response.status);
+                        const result = await response.json();
+                        console.log('Response data:', result);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}, Detail: ${result.error || 'Unknown error'}`);
+                        }
+
+                        if (result.success) {
+                            document.querySelector('#menu-message').style.color = 'green';
+                            document.querySelector('#menu-message').textContent = result.message || 'Menu setup successful!';
+                            if (result.redirect_url) {
+                                console.log('Redirecting to:', result.redirect_url);
+                                setTimeout(() => window.location.href = result.redirect_url, 500); // Delay for feedback
+                            } else {
+                                console.warn('No redirect_url in response');
+                            }
+                        } else {
+                            document.querySelector('#menu-message').style.color = 'red';
+                            document.querySelector('#menu-message').textContent = result.message || 'Menu setup failed.';
+                            if (result.errors) {
+                                console.log('Detailed errors:', result.errors);
+                                for (let field in result.errors) {
+                                    const errorSpan = document.querySelector(`#${field}-error`);
+                                    if (errorSpan) errorSpan.textContent = result.errors[field][0];
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Fetch error:', error);
+                        document.querySelector('#menu-message').style.color = 'red';
+                        document.querySelector('#menu-message').textContent = `Menu setup failed: ${error.message}`;
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+</body>
+</html>

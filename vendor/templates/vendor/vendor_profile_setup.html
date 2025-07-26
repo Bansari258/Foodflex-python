@@ -1,0 +1,222 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>{% block title %}FoodFlex{% endblock %}</title>
+    <!-- BASE CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .error {
+            color: red;
+        }
+
+        #profile-message {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="text-center my-4" >Profile Setup </h2>
+        <form id="vendor-profile-setup-form" enctype="multipart/form-data" action="{% url 'vendor:api_profile_setup' %}"
+            method="post">
+            {% csrf_token %}
+
+            <h4>Restaurant Information </h4>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Restaurant Name" name="restaurant_name"
+                    id="restaurantname_register" required>
+                <span class="error" id="restaurant_name-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Shop No. / Building No. (optional)" name="shop_no"
+                    id="shop_no">
+                <span class="error" id="shop_no-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Floor / Tower (optional)" name="floor" id="floor">
+                <span class="error" id="floor-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Area / Sector / Locality" name="area" id="area"
+                    required>
+                <span class="error" id="area-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="City" name="city" id="city" required>
+                <span class="error" id="city-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nearby Landmark (optional)" name="landmark"
+                    id="landmark">
+                <span class="error" id="landmark-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="tel" class="form-control" placeholder="Restaurant Primary Contact Number"
+                    name="restaurant_phone" id="restaurant_phone" required>
+                <span class="error" id="restaurant_phone-error"></span>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Restaurant Email" name="restaurant_email"
+                    id="restaurant_email" required>
+                <span class="error" id="restaurant_email-error"></span>
+            </div>
+
+            <h4>Operational Details</h4>
+            <div class="form-group">
+                <label for="profile_image">Restaurant Profile Image</label>
+                <input type="file" class="form-control" name="profile_image" id="profile_image" required>
+                <span class="error" id="profile_image-error"></span>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" placeholder="Restaurant Description (optional)" name="description"
+                    id="description" rows="3"></textarea>
+                <span class="error" id="description-error"></span>
+            </div>
+            <div class="form-group">
+                <label>Takeaway:</label>
+                <input type="checkbox" name="takeaway" id="takeaway" value="true">
+                <span class="error" id="takeaway-error"></span>
+            </div>
+            <div class="form-group">
+                <label>Delivery:</label>
+                <input type="checkbox" name="delivery" id="delivery" value="true">
+                <span class="error" id="delivery-error"></span>
+            </div>
+            <!-- <div class="form-group">
+                <label>Mark Open Days (optional):</label>
+                {% for day in days_of_week %}
+                <input type="checkbox" name="open_days" value="{{ day }}"> {{ day }}
+                {% endfor %}
+                <span class="error" id="open_days-error"></span>
+            </div> -->
+            <div class="form-group"> 
+                <label for="category"> Restaurant Category</label>
+                <select name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="restaurant">Restaurant & Cafe</option>
+                    <option value="cloud_kitchen">Cloud Kitchen</option>
+                    <option value="tiffin">Tiffin Service</option>
+                    <option value="stall">Stall</option>
+                </select>
+            </div>
+           
+            <div class="form-group">
+                <label for="open_time">Restaurant Open Time</label>
+                <input type="time" class="form-control" name="open_time" id="open_time" required>
+                <span class="error" id="open_time-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="close_time">Restaurant Close Time</label>
+                <input type="time" class="form-control" name="close_time" id="close_time" required>
+                <span class="error" id="close_time-error"></span>
+            </div>
+
+            <div class="form-group text-center mt-5">
+                <input type="submit" class="btn_1 gradient" value="Save & Continue" id="submit-profile">
+            </div>
+        </form>
+        <div id="profile-message" class="text-center mt-3"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Profile setup script loaded');
+            const token = localStorage.getItem('access_token');
+            console.log('Token retrieved from localStorage:', token);
+
+            const profileSetupForm = document.querySelector('#vendor-profile-setup-form');
+            if (!profileSetupForm) {
+                console.warn('Profile setup form not found.');
+                return;
+            }
+            console.log('Profile setup form found:', profileSetupForm);
+
+            profileSetupForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                console.log('Profile setup form submission intercepted');
+
+                const formData = new FormData(profileSetupForm);
+                console.log('Profile setup data:', Object.fromEntries(formData));
+
+                const messageDiv = document.querySelector('#profile-message');
+
+                if (!token) {
+                    console.error('No token found in localStorage');
+                    if (messageDiv) {
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = 'Authentication token not found. Please sign up again.';
+                    }
+                    return;
+                }
+
+                try {
+                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                    console.log('CSRF token:', csrfToken);
+
+                    const response = await fetch("{% url 'vendor:api_profile_setup' %}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Authorization': `Bearer ${token}`
+                        },
+                    });
+
+                    console.log('Response status:', response.status);
+                    const result = await response.json();
+                    console.log('Profile setup response:', result);
+
+                    if (!response.ok) {
+                        console.error('Profile setup error:', result);
+                        throw new Error('Profile setup failed');
+                    }
+
+                    if (result.success) {
+                        if (messageDiv) {
+                            messageDiv.style.color = 'green';
+                            messageDiv.textContent = result.message || 'Profile setup successful!';
+                        }
+                        if (result.redirect_url) {
+                            console.log('Redirecting to:', result.redirect_url);
+                            setTimeout(() => window.location.href = result.redirect_url, 500);
+                        }
+                    } else {
+                        if (messageDiv) {
+                            messageDiv.style.color = 'red';
+                            messageDiv.textContent = result.message || 'Profile setup failed.';
+                        }
+                        if (result.errors) {
+                            console.log('Validation errors:', result.errors);
+                            for (let field in result.errors) {
+                                const errorSpan = document.querySelector(`#${field}-error`);
+                                if (errorSpan) errorSpan.textContent = result.errors[field][0] || result.errors[field];
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    if (messageDiv) {
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = `Profile setup failed: ${error.message}`;
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+</body>
+
+</html>

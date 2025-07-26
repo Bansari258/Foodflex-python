@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'vendorPanel/img/favicon.png' %}" type="">
+    <title>FoodFlex - Vendor Dashboard</title>
+    <!-- Bootstrap core CSS-->
+    <link href="{% static 'vendorPanel/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="{% static 'vendorPanel/css/admin.css' %}" rel="stylesheet">
+    <!-- Icon fonts-->
+    <link href="{% static 'vendorPanel/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Plugin styles -->
+    <link href="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <!-- Your custom styles -->
+    <link href="{% static 'vendorPanel/css/custom.css' %}" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top shadow" id="mainNav">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav shadow" id="exampleAccordion">
+                <div class="sidenav-top">
+                    <a class="navbar-brand" href="{% url 'vendor:vendor_home' %}">
+                        <img src="{% static 'vendorPanel/img/logo.png' %}" alt="" width="150" height="36">
+                    </a>
+                    <ul class="navbar-nav sidenav-toggler">
+                        <li class="nav-item">
+                            <a class="nav-link text-center" id="sidenavToggler">
+                                <i class="fa fa-fw fa-angle-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'vendor:vendor_home' %}">
+                        <i class="fa fa-fw fa-tachometer"></i>
+                        <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:orders' %}">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="nav-link-text">Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:menu' %}">
+                        <i class="fa fa-fw fa-cutlery"></i>
+                        <span class="nav-link-text">Menu Management</span>
+                    </a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span class="nav-link-text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:earnings' %}">
+                        <i class="fa fa-fw fa-money-check-dollar"></i>
+                        <span class="nav-link-text">Earnings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span class="nav-link-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Top Right Navbar -->
+            <ul class="navbar-nav ml-auto" id="navtop">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-user text-orange"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-orange" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out-alt text-orange"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+    
+            <div class="row" id="dashboard-cards">
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card dashboard text-white bg-primary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fa fa-fw fa-dollar-sign"></i>
+                            </div>
+                            <div class="mr-5">
+                                <h5>Total Earnings</h5>
+                                <h4 id="total-earnings">₹{{ total_earnings|floatformat:2 }}</h4>
+                            </div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="{% url 'vendor:earnings' %}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card dashboard text-white bg-success o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fa fa-fw fa-shopping-cart"></i>
+                            </div>
+                            <div class="mr-5">
+                                <h5>New Orders</h5>
+                                <h4 id="new-orders">{{ new_orders }}</h4>
+                            </div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="{% url 'vendor:orders' %}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-sm-6 mb-3">
+                    <div class="card dashboard text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fa fa-fw fa-users"></i>
+                            </div>
+                            <div class="mr-5">
+                                <h5>Total Customers</h5>
+                                <h4 id="total-customers">{{ total_customers }}</h4>
+                            </div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="{% url 'vendor:customers' %}">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Earnings Chart -->
+            <!-- <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-bar-chart"></i>Earnings Over Time</h2>
+                </div>
+                <canvas id="myAreaChart" width="100%" height="30" style="margin:45px 0 15px 0;"></canvas>
+            </div> -->
+
+            <!-- Recent Orders -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-shopping-cart"></i>Recent Orders</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="recentOrdersTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                                <th>Total Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders-body">
+                            {% for order in recent_orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.user.email }}</td>
+                                    <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ order.status|title }}</td>
+                                    <td>₹{{ order.total_amount|floatformat:2 }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="5">No recent orders found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Top Menu Items -->
+            <div class="box_general padding_bottom">
+                <div class="header_box version_2">
+                    <h2><i class="fa fa-cutlery"></i>Top Menu Items</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="topMenuItemsTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Orders</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-menu-items-body">
+                            {% for item in top_menu_items %}
+                                <tr>
+                                    <td>{{ item.menu_item__name }}</td>
+                                    <td>{{ item.menu_item__category }}</td>
+                                    <td>₹{{ item.menu_item__price|floatformat:2 }}</td>
+                                    <td>{{ item.order_count }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4">No top menu items found.</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+    
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="{% static 'vendorPanel/vendor/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+    <script src="{% static 'vendorPanel/vendor/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'vendorPanel/js/admin.js' %}"></script>
+    <!-- Custom scripts for this page-->
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTables for tables
+            $('#recentOrdersTable').DataTable({
+                "pageLength": 5,
+                "lengthChange": false,
+                "searching": false
+            });
+            $('#topMenuItemsTable').DataTable({
+                "pageLength": 5,
+                "lengthChange": false,
+                "searching": false
+            });
+
+            // Initial chart rendering with data from the view
+            const ctx = document.getElementById('myAreaChart');
+            if (ctx) {
+                let myAreaChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: JSON.parse('{{ chart_labels|escapejs }}'),
+                        datasets: [{
+                            label: 'Earnings (₹)',
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(255, 159, 64, 0.2)",
+                            borderColor: "rgba(255, 159, 64, 1)",
+                            pointRadius: 5,
+                            pointBackgroundColor: "rgba(255, 159, 64, 1)",
+                            pointBorderColor: "rgba(255, 255, 255, 0.8)",
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(255, 159, 64, 1)",
+                            pointHitRadius: 50,
+                            pointBorderWidth: 2,
+                            data: JSON.parse('{{ chart_data|escapejs }}')
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                time: {
+                                    unit: 'month'
+                                },
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    maxTicksLimit: 6
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    min: 0,
+                                    maxTicksLimit: 5,
+                                    callback: function(value) {
+                                        return '₹' + value;
+                                    }
+                                },
+                                grid: {
+                                    color: "rgba(0, 0, 0, .125)",
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+
+                // Function to fetch and update dashboard data
+                function loadDashboardData() {
+                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]') ? document.querySelector('input[name="csrfmiddlewaretoken"]').value : '';
+                    fetch("{% url 'vendor:api_vendor_dashboard' %}", {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Authorization': `Bearer ${localStorage.getItem('access_token') || ''}`
+                        }
+                    })
+                    .then(response => {
+                        console.log('Dashboard response status:', response.status);
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Dashboard data:', data);
+                        if (data.success) {
+                            // Update cards
+                            document.getElementById('total-earnings').textContent = `₹${data.data.total_earnings.toFixed(2)}`;
+                            document.getElementById('new-orders').textContent = data.data.new_orders;
+                            document.getElementById('total-customers').textContent = data.data.total_customers;
+                            document.getElementById('average-rating').textContent = `${data.data.average_rating} / 5`;
+                            document.getElementById('message-count').textContent = data.data.new_messages || 0;
+                            document.getElementById('alert-count').textContent = data.data.new_orders;
+
+                            // Update recent orders table
+                            const recentOrdersBody = document.getElementById('recent-orders-body');
+                            recentOrdersBody.innerHTML = '';
+                            if (data.data.recent_orders.length > 0) {
+                                data.data.recent_orders.forEach(order => {
+                                    const row = `
+                                        <tr>
+                                            <td>${order.id}</td>
+                                            <td>${order.user_email}</td>
+                                            <td>${order.created_at}</td>
+                                            <td>${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
+                                            <td>₹${order.total_amount.toFixed(2)}</td>
+                                        </tr>
+                                    `;
+                                    recentOrdersBody.innerHTML += row;
+                                });
+                            } else {
+                                recentOrdersBody.innerHTML = '<tr><td colspan="5">No recent orders found.</td></tr>';
+                            }
+
+                            // Update top menu items table
+                            const topMenuItemsBody = document.getElementById('top-menu-items-body');
+                            topMenuItemsBody.innerHTML = '';
+                            if (data.data.top_menu_items.length > 0) {
+                                data.data.top_menu_items.forEach(item => {
+                                    const row = `
+                                        <tr>
+                                            <td>${item.menu_item__name}</td>
+                                            <td>${item.menu_item__category}</td>
+                                            <td>₹${item.menu_item__price.toFixed(2)}</td>
+                                            <td>${item.order_count}</td>
+                                        </tr>
+                                    `;
+                                    topMenuItemsBody.innerHTML += row;
+                                });
+                            } else {
+                                topMenuItemsBody.innerHTML = '<tr><td colspan="4">No top menu items found.</td></tr>';
+                            }
+
+                            // Update chart
+                            myAreaChart.data.labels = data.data.chart_labels;
+                            myAreaChart.data.datasets[0].data = data.data.chart_data;
+                            myAreaChart.update();
+                        } else {
+                            console.error('Failed to load dashboard data:', data.message);
+                            alert('Failed to load dashboard data: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        alert('Error loading dashboard data: ' + error.message);
+                    });
+                }
+
+                // Load data when the page loads
+                loadDashboardData();
+
+                // Reload data every 5 minutes
+                setInterval(loadDashboardData, 300000);
+            } else {
+                console.error('Chart canvas element not found.');
+            }
+        });
+    </script>
+</body>
+
+</html>

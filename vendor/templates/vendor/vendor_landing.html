@@ -1,0 +1,497 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="../static/img/favicon.png" type="">
+    <title>FoodFlex - Advanced Food Ordering System</title>
+    <!-- BASE CSS -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/custom.css" rel="stylesheet">
+    <link href="../static/css/vegas.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header clearfix element_to_stick">
+        <div class="container">
+            <div id="logo">
+                <a href="index.html">
+                    <img src="../static/img/logo.png" width="132" height="35" alt="" class="logo_normal">
+                    <img src="../static/img/logo-black.png" width="132" height="35" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+      
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="index.html"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="landing.html">Home</a></li>
+                    <li><a href="{% url 'vendor:vendor_landing' %}">Add restaurant</a></li>
+                    <li><a href="{% url 'vendor:vendor_signup' %}">Sign up</a></li>
+                    <li><a href="#sign-in-dialog" id="sign-in" class="sign-in">Sign In</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="hero_single inner_pages background-image" data-background="url(../static/img/new.jpg)">
+            <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.5)">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <h1>Attract New Customers</h1>
+                            <p>More bookings from diners around the corner</p>
+                            <a href="{% url 'vendor:vendor_signup' %}" class="btn_1 gradient btn_scroll">Apply Now</a>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+            </div>
+            <div class="wave hero"></div>
+        </div>
+        <!-- /hero_single -->
+        <div class="container margin_30_20">
+            <div class="main_title center">
+                <span><em></em></span>
+                <h2>Why Partner with FoodFlex?</h2>
+                <p>Expand your reach, increase your sales, and simplify restaurant management with FoodFlex.</p>
+            </div>
+        
+            <div class="row justify-content-center align-items-center add_bottom_15">
+                <div class="col-lg-6">
+                    <div class="box_about">
+                        <h3>Boost Your Orders</h3>
+                        <p class="lead">Get more visibility and attract more customers through our platform.</p>
+                        <p>With FoodFlex, your restaurant will be featured in a vast network of hungry customers. Our smart recommendation system ensures your menu reaches the right audience, increasing sales and customer engagement.</p>
+                        <img src="../static/img/arrow_about.png" alt="" class="arrow_1">
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center d-none d-lg-block">
+                    <img src="../static/img/about_1.svg" alt="" class="../static/img-fluid" width="250" height="250">
+                </div>
+            </div>
+            <!-- /row -->
+            <div class="row justify-content-center align-items-center add_bottom_15">
+                <div class="col-lg-6 text-center d-none d-lg-block">
+                    <img src="../static/img/about_2.svg" alt="" class="../static/img-fluid" width="250" height="250">
+                </div>
+                <div class="col-lg-6">
+                    <div class="box_about">
+                        <h3>Easy Order & Menu Management</h3>
+                        <p class="lead">Update menus, track orders, and manage business operations seamlessly.</p>
+                        <p>FoodFlex provides an intuitive dashboard for vendors to add, edit, and remove menu items with ease. Track real-time orders, manage availability, and streamline your restaurant operations efficiently.</p>
+                        <img src="../static/img/arrow_about.png" alt="" class="arrow_2">
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-6">
+                    <div class="box_about">
+                        <h3>Expand Your Customer Base</h3>
+                        <p class="lead">Reach more food lovers and grow your business with FoodFlex.</p>
+                        <p>By joining FoodFlex, your restaurant will gain exposure to thousands of potential customers. With advanced marketing and analytics tools, you can optimize your offerings and attract loyal diners.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center d-none d-lg-block">
+                    <img src="../static/img/about_3.svg" alt="" class="../static/img-fluid" width="250" height="250">
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        
+        <!-- /container -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="main_title center my-5">
+                    <span><em></em></span>
+                    <h2 style="margin-bottom: 0;">Frequently Asked Questions</h2>
+                    <p>Find answers to your questions about partnering with FoodFlex.</p>
+                </div>
+        
+                <div role="tablist" class="add_bottom_15 accordion_2" id="accordion_group">
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                    <i class="indicator icon_minus-06"></i>What is FoodFlex?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>FoodFlex is an online food ordering and delivery platform that connects restaurants with customers. Vendors can list their restaurants, manage orders, and grow their business effortlessly.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseTwo" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>How can I join as a vendor?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Joining FoodFlex is simple! Sign up on our vendor registration page, provide your restaurant details, and once verified, you can start receiving orders.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseThree" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>What are the benefits of partnering with FoodFlex?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>FoodFlex helps you reach new customers, increase online orders, and manage your restaurant seamlessly with our vendor dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFour" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>Is there a commission fee for vendors?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Yes, FoodFlex charges a small commission per order. The exact percentage depends on your plan and agreement with us.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFive" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>How do I manage my restaurant and menu?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Vendors get access to a user-friendly dashboard where they can update menu items, track orders, manage pricing, and view sales analytics.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSix" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>How does the payment process work?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSix" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Payments are processed securely. Vendors receive their earnings on a regular payout schedule, depending on the selected payment method.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSeven" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>Can I set my own delivery options?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSeven" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Yes! Vendors can choose to handle deliveries themselves or use FoodFlex's delivery partners to fulfill orders.</p>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseEight" aria-expanded="false">
+                                    <i class="indicator icon_plus"></i>Who do I contact for support?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseEight" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>For any assistance, vendors can contact our dedicated support team via email, phone, or live chat through the vendor dashboard.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /accordion group -->
+            </div>
+            <!-- /col -->
+        </div>
+        
+  
+
+    </main>
+    <!-- /main -->
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+                      
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+            </div>
+            <!-- /row-->
+
+        </div>
+    </footer>
+    <!--/footer-->
+
+    <div id="toTop"></div>
+    <!-- Back to top button -->
+
+
+
+        <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide ">
+            <div class="modal_header">
+                <h3>Sign In</h3>
+            </div>
+            <form id="login-form">
+                {% csrf_token %}
+                <div class="sign-in-wrapper">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="email" id="vendor-email" required>
+                        <i class="icon_mail_alt"></i>
+                        <span class="error" id="email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" id="vendor-password" required>
+                        <i class="icon_lock_alt"></i>
+                        <span class="error" id="password-error"></span>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Log In" class="btn_1 full-width mb_5">
+                        Don’t have an account? <a href="{% url 'vendor:vendor_signup' %}">Sign up</a>
+                    </div>
+                </div>
+            </form>
+            <div id="login-message" class="text-center mt-3"></div>
+        </div> 
+    <!-- /Sign In Modal -->
+
+    <!-- COMMON SCRIPTS -->
+    <script src="../static/js/common_scripts.min.js"></script>
+    <script src="../static/js/common_func.js"></script>
+    <script src="../static/js/validate.js"></script>
+
+
+<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide">
+    <div class="modal_header">
+        <h3>Sign In</h3>
+    </div>
+    <form id="login-form">
+        {% csrf_token %}
+        <div class="sign-in-wrapper">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" id="vendor-email" required>
+                <i class="icon_mail_alt"></i>
+                <span class="error" id="email-error"></span>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" name="password" id="vendor-password" required>
+                <i class="icon_lock_alt"></i>
+                <span class="error" id="password-error"></span>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Log In" class="btn_1 full-width mb_5">
+                Don’t have an account? <a href="{% url 'vendor:vendor_signup' %}">Sign up</a>
+            </div>
+        </div>
+    </form>
+    <div id="login-message" class="text-center mt-3"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Login script loaded');
+        const loginForm = document.querySelector('#login-form');
+        if (!loginForm) {
+            console.warn('Login form not found.');
+            return;
+        }
+        console.log('Login form found:', loginForm);
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            console.log('Login form submission intercepted');
+
+            document.querySelectorAll('.error').forEach(el => {
+                el.textContent = '';
+                el.style.display = 'block';
+            });
+            document.querySelector('#login-message').textContent = '';
+
+            const formData = new FormData(loginForm);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+            console.log('Login data:', data);
+
+            fetch("{% url 'vendor:api_vendor_login' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('input[name="csrfmiddlewaretoken"]').value
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json().then(data => ({ status: response.status, data }));
+            })
+            .then(({ status, data }) => {
+                console.log('Response data:', data);
+                const messageDiv = document.querySelector('#login-message');
+                if (data.success) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = data.message || 'Login successful!';
+
+                    // Store tokens in localStorage
+                    if (data.access_token && data.refresh_token) {
+                        localStorage.setItem('access_token', data.access_token);
+                        localStorage.setItem('refresh_token', data.refresh_token);
+                        console.log('Tokens stored in localStorage:', {
+                            access_token: data.access_token,
+                            refresh_token: data.refresh_token
+                        });
+                    } else {
+                        console.warn('Tokens missing in response:', data);
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = 'Login successful, but tokens are missing.';
+                        return;
+                    }
+
+                    // Redirect to vendor home
+                    if (data.redirect_url) {
+                        console.log('Redirecting to:', data.redirect_url);
+                        window.location.href = data.redirect_url; // Immediate redirect
+                    } else {
+                        console.warn('No redirect_url in response');
+                        window.location.href = "{% url 'vendor:vendor_home' %}"; // Fallback redirect
+                    }
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = data.message || 'Login failed.';
+                    if (data.errors) {
+                        console.log('Validation errors:', data.errors);
+                        for (let field in data.errors) {
+                            const errorSpan = document.querySelector(`#${field}-error`);
+                            if (errorSpan) {
+                                const errorMessage = Array.isArray(data.errors[field]) ? data.errors[field][0] : data.errors[field];
+                                errorSpan.textContent = errorMessage;
+                                errorSpan.style.display = 'block';
+                                console.log(`Set ${field}-error to: ${errorMessage}`);
+                            } else {
+                                console.warn(`No error span found for field: ${field}`);
+                                messageDiv.textContent += ` | ${field}: ${Array.isArray(data.errors[field]) ? data.errors[field][0] : data.errors[field]}`;
+                            }
+                        }
+                    } else if (data.detail) {
+                        console.error('Server error:', data.detail);
+                        messageDiv.textContent += ` | Server error: ${data.detail}`;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                document.querySelector('#login-message').style.color = 'red';
+                document.querySelector('#login-message').textContent = `Login failed: ${error.message}`;
+            });
+        });
+    });
+</script>
+<script>
+    document.querySelector('.signinopen').onclick = function(event) {
+       window.location.href = "#sign-in-dialog"
+    };
+</script>
+
+</body>
+
+</html>

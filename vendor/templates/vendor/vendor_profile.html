@@ -1,0 +1,477 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'vendorPanel/img/favicon.png' %}" type="image/png">
+    <title>FoodFlex - Vendor Profile</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendorPanel/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Main styles -->
+    <link href="{% static 'vendorPanel/css/admin.css' %}" rel="stylesheet">
+    <!-- Icon fonts -->
+    <link href="{% static 'vendorPanel/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet"
+        type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Plugin styles -->
+    <link href="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+    <!-- Your custom styles -->
+    <link href="{% static 'vendorPanel/css/custom.css' %}" rel="stylesheet">
+    <style>
+        .profile-container {
+            padding: 20px;
+        }
+
+        .profile-details {
+            margin-bottom: 20px;
+        }
+
+        .profile-details label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .profile-details input,
+        .profile-details textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .profile-details input:disabled,
+        .profile-details textarea:disabled {
+            background-color: #f5f5f5;
+        }
+
+        .error {
+            color: red;
+        }
+
+        #profile-message {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body class="fixed-nav sticky-footer" id="page-top">
+    <!-- Navigation unchanged -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-default fixed-top shadow" id="mainNav">
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav shadow" id="exampleAccordion">
+                <div class="sidenav-top">
+                    <a class="navbar-brand" href="{% url 'vendor:vendor_home' %}">
+                        <img src="{% static 'vendorPanel/img/logo.png' %}" alt="" width="150" height="36">
+                    </a>
+                    <ul class="navbar-nav sidenav-toggler">
+                        <li class="nav-item">
+                            <a class="nav-link text-center" id="sidenavToggler">
+                                <i class="fa fa-fw fa-angle-left"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_home' %}">
+                        <i class="fa fa-fw fa-tachometer"></i>
+                        <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:orders' %}">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="nav-link-text">Orders</span>
+                    </a>
+                </li>
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'vendor:menu' %}">
+                        <i class="fa fa-fw fa-cutlery"></i>
+                        <span class="nav-link-text">Menu Management</span>
+                    </a>
+                </li>
+               
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span class="nav-link-text">Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:earnings' %}">
+                        <i class="fa fa-fw fa-money-check-dollar"></i>
+                        <span class="nav-link-text">Earnings</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span class="nav-link-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Top Right Navbar -->
+            <ul class="navbar-nav ml-auto" id="navtop">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'vendor:vendor_profile' %}">
+                        <i class="fa fa-fw fa-user text-orange"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-orange" href="{% url 'vendor:vendor_logout' %}">
+                        <i class="fa fa-fw fa-sign-out-alt text-orange"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+
+            <div class="profile-container">
+                <div class="box_general padding_bottom">
+                    <div class="header_box version_2">
+                        <h2><i class="fa fa-user"></i> Vendor Profile</h2>
+                    </div>
+                    <form id="vendor-profile-form" enctype="multipart/form-data" class="profile-details">
+                        {% csrf_token %}
+                        <div class="profile-details">
+                            <h4>Restaurant Information</h4>
+                            <div class="form-group">
+                                <label>Restaurant Name:</label>
+                                <input type="text" class="form-control" id="restaurant_name" name="restaurant_name" disabled>
+                                <span class="error" id="restaurant_name-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Shop No. / Building No. (optional):</label>
+                                <input type="text" class="form-control" id="shop_no" name="shop_no" disabled>
+                                <span class="error" id="shop_no-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Floor / Tower (optional):</label>
+                                <input type="text" class="form-control" id="floor" name="floor" disabled>
+                                <span class="error" id="floor-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Area / Sector / Locality:</label>
+                                <input type="text" class="form-control" id="area" name="area" disabled>
+                                <span class="error" id="area-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>City:</label>
+                                <input type="text" class="form-control" id="city" name="city" disabled>
+                                <span class="error" id="city-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Nearby Landmark (optional):</label>
+                                <input type="text" class="form-control" id="landmark" name="landmark" disabled>
+                                <span class="error" id="landmark-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Primary Contact Number:</label>
+                                <input type="tel" class="form-control" id="restaurant_phone" name="restaurant_phone" disabled>
+                                <span class="error" id="restaurant_phone-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Email:</label>
+                                <input type="email" class="form-control" id="restaurant_email" name="restaurant_email" disabled>
+                                <span class="error" id="restaurant_email-error"></span>
+                            </div>
+                
+                            <h4>Operational Details</h4>
+                            <div class="form-group">
+                                <label>Restaurant Profile Image:</label>
+                                <input type="file" class="form-control" id="profile_image" name="profile_image" disabled>
+                                <img id="profile_image_preview" src="" alt="Profile Image Preview" style="display: none; max-width: 200px;">
+                                <span class="error" id="profile_image-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Description (optional):</label>
+                                <textarea class="form-control" id="description" name="description" disabled></textarea>
+                                <span class="error" id="description-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Takeaway:</label>
+                                <input type="checkbox" id="takeaway" name="takeaway" disabled>
+                                <span class="error" id="takeaway-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Delivery:</label>
+                                <input type="checkbox" id="delivery" name="delivery" disabled>
+                                <span class="error" id="delivery-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Category:</label>
+                                <select name="category" id="category" disabled>
+                                    <option value="">Select Category</option>
+                                    <option value="restaurant">Restaurant & Cafe</option>
+                                    <option value="cloud_kitchen">Cloud Kitchen</option>
+                                    <option value="tiffin">Tiffin Service</option>
+                                    <option value="stall">Stall</option>
+                                </select>
+                                <span class="error" id="category-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Open Time:</label>
+                                <input type="time" class="form-control" id="open_time" name="open_time" disabled>
+                                <span class="error" id="open_time-error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Restaurant Close Time:</label>
+                                <input type="time" class="form-control" id="close_time" name="close_time" disabled>
+                                <span class="error" id="close_time-error"></span>
+                            </div>
+                            <button type="button" id="edit-profile" class="btn btn-primary">Edit Profile</button>
+                            <button type="submit" id="save-profile" class="btn btn-success" style="display: none;">Save Profile</button>
+                        </div>
+                    </form>
+                    <div id="profile-message" class="text-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top and Logout Modal unchanged -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+
+
+    <!-- Profile Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Profile script loaded');
+            let token = localStorage.getItem('access_token');
+            console.log('Token retrieved from localStorage:', token);
+            const profileForm = document.querySelector('#vendor-profile-form');
+            const editButton = document.querySelector('#edit-profile');
+            const saveButton = document.querySelector('#save-profile');
+            const messageDiv = document.querySelector('#profile-message');
+    
+            if (!token) {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'No authentication token found. Redirecting to login...';
+                setTimeout(() => {
+                    window.location.href = "{% url 'vendor:vendor_landing' %}";
+                }, 2000);
+                return;
+            }
+    
+            async function refreshToken() {
+                const refreshToken = localStorage.getItem('refresh_token');
+                if (!refreshToken) throw new Error('No refresh token available. Please log in again.');
+    
+                try {
+                    const response = await fetch('/api/token/refresh/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ refresh: refreshToken })
+                    });
+    
+                    if (!response.ok) throw new Error('Failed to refresh token');
+                    const data = await response.json();
+                    localStorage.setItem('access_token', data.access);
+                    if (data.refresh) localStorage.setItem('refresh_token', data.refresh);
+                    return data.access;
+                } catch (error) {
+                    console.error('Token refresh error:', error);
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    window.location.href = "{% url 'vendor:vendor_landing' %}";
+                    throw error;
+                }
+            }
+    
+            async function fetchProfileData() {
+                try {
+                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                    let response = await fetch("{% url 'vendor:api_profile_setup' %}", {
+                        method: 'GET',
+                        headers: { 'Authorization': `Bearer ${token}`, 'X-CSRFToken': csrfToken }
+                    });
+    
+                    if (response.status === 401) {
+                        const errorData = await response.json();
+                        if (errorData.code === 'token_not_valid' && errorData.messages.some(msg => msg.message === 'Token is expired')) {
+                            token = await refreshToken();
+                            response = await fetch("{% url 'vendor:api_profile_setup' %}", {
+                                method: 'GET',
+                                headers: { 'Authorization': `Bearer ${token}`, 'X-CSRFToken': csrfToken }
+                            });
+                        } else {
+                            throw new Error(errorData.detail || 'Authentication failed');
+                        }
+                    }
+    
+                    const data = await response.json();
+                    console.log('Profile data response:', data);
+                    if (data.success) {
+                        const restaurantNameField = document.getElementById('restaurant_name');
+                        if (restaurantNameField) restaurantNameField.value = data.restaurant_name || '';
+                        const shopNoField = document.getElementById('shop_no');
+                        if (shopNoField) shopNoField.value = data.shop_no || '';
+                        const floorField = document.getElementById('floor');
+                        if (floorField) floorField.value = data.floor || '';
+                        const areaField = document.getElementById('area');
+                        if (areaField) areaField.value = data.area || '';
+                        const cityField = document.getElementById('city');
+                        if (cityField) cityField.value = data.city || '';
+                        const landmarkField = document.getElementById('landmark');
+                        if (landmarkField) landmarkField.value = data.landmark || '';
+                        const restaurantPhoneField = document.getElementById('restaurant_phone');
+                        if (restaurantPhoneField) restaurantPhoneField.value = data.restaurant_phone || '';
+                        const restaurantEmailField = document.getElementById('restaurant_email');
+                        if (restaurantEmailField) restaurantEmailField.value = data.restaurant_email || '';
+                        const profileImagePreview = document.getElementById('profile_image_preview');
+                        if (data.profile_image && profileImagePreview) {
+                            profileImagePreview.src = data.profile_image;
+                            profileImagePreview.style.display = 'block';
+                        }
+                        const descriptionField = document.getElementById('description');
+                        if (descriptionField) descriptionField.value = data.description || '';
+                        const takeawayField = document.getElementById('takeaway');
+                        if (takeawayField) takeawayField.checked = data.takeaway || false;
+                        const deliveryField = document.getElementById('delivery');
+                        if (deliveryField) deliveryField.checked = data.delivery || false;
+                        const categoryField = document.getElementById('category');
+                        if (categoryField) categoryField.value = data.category || 'restaurant';
+                        const openTimeField = document.getElementById('open_time');
+                        if (openTimeField) openTimeField.value = data.open_time || '';
+                        const closeTimeField = document.getElementById('close_time');
+                        if (closeTimeField) closeTimeField.value = data.close_time || '';
+                    } else {
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = data.error || 'Failed to load profile data.';
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = 'Error loading profile data: ' + error.message;
+                }
+            }
+    
+            fetchProfileData();
+    
+            editButton.addEventListener('click', function() {
+                document.querySelectorAll('.profile-details input, .profile-details textarea, .profile-details select').forEach(field => {
+                    field.disabled = false;  
+                });
+                editButton.style.display = 'none';
+                saveButton.style.display = 'inline-block';
+            });
+    
+            profileForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                console.log('Profile form submission intercepted');
+                console.log('Form data before processing:', new FormData(profileForm));
+    
+                const formData = new FormData(profileForm);
+                console.log('Profile data to save:', Object.fromEntries(formData));
+    
+                try {
+                    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+                    let response = await fetch("{% url 'vendor:api_profile_setup' %}", {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Authorization': `Bearer ${token}`
+                        },
+                        credentials: 'include'
+                    });
+    
+                    console.log('Save response status:', response.status);
+                    console.log('Save response headers:', Object.fromEntries(response.headers.entries()));
+                    const text = await response.text();
+                    console.log('Raw response:', text);
+                    let result;
+                    try {
+                        result = JSON.parse(text);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        throw new Error('Server returned non-JSON response: ' + text.substring(0, 50));
+                    }
+                    console.log('Save response:', result);
+    
+                    if (response.status === 401) {
+                        const errorData = result;
+                        if (errorData.code === 'token_not_valid' && errorData.messages.some(msg => msg.message === 'Token is expired')) {
+                            token = await refreshToken();
+                            response = await fetch("{% url 'vendor:api_profile_setup' %}", {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRFToken': csrfToken,
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                credentials: 'include'
+                            });
+                            console.log('Retry response status:', response.status);
+                            const retryText = await response.text();
+                            result = JSON.parse(retryText);
+                            console.log('Retry response:', result);
+                        } else {
+                            throw new Error(errorData.detail || 'Authentication failed');
+                        }
+                    }
+    
+                    if (result.success) {
+                        messageDiv.style.color = 'green';
+                        messageDiv.textContent = result.message || 'Profile updated successfully!';
+                        document.querySelectorAll('.profile-details input, .profile-details textarea, .profile-details select').forEach(field => {
+                            if (field.id !== 'profile_image') field.disabled = true;
+                        });
+                        editButton.style.display = 'inline-block';
+                        saveButton.style.display = 'none';
+                        if (result.profile_image) {
+                            const profileImagePreview = document.getElementById('profile_image_preview');
+                            if (profileImagePreview) {
+                                profileImagePreview.src = result.profile_image;
+                                profileImagePreview.style.display = 'block';
+                            }
+                        }
+                    } else {
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = result.message || 'Failed to update profile.';
+                        if (result.errors) {
+                            for (let field in result.errors) {
+                                const errorSpan = document.querySelector(`#${field}-error`);
+                                if (errorSpan) {
+                                    errorSpan.textContent = Array.isArray(result.errors[field]) ? result.errors[field][0] : result.errors[field];
+                                }
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = `Error updating profile: ${error.message}`;
+                }
+            });
+        });
+    </script>
+        <!-- Scripts -->
+        <script src="{% static 'vendorPanel/vendor/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/chart.js/Chart.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/datatables/jquery.dataTables.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/datatables/dataTables.bootstrap4.js' %}"></script>
+        <script src="{% static 'vendorPanel/vendor/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'vendorPanel/js/admin.js' %}"></script>
+</body>
+
+</html>

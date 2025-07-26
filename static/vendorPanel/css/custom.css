@@ -1,0 +1,16 @@
+/* YOUR CUSTOM CSS */
+
+#mainNav.navbar-dark .navbar-collapse .navbar-sidenav::-webkit-scrollbar {
+    display: none !important;
+}
+.sidenav-top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sidenav-toggled .sidenav-top .navbar-brand{
+    display: none !important;
+}
+#navtop .nav-item .nav-link{
+    color: #000;
+}

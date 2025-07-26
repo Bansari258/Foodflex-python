@@ -1,0 +1,392 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>{% block title %}FoodFlex{% endblock %}</title>
+    <!-- BASE CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <style>
+        .icon_cart_alt {
+            font-size: 1.5rem;
+            color: #fff;
+            position: relative;
+            top: 8px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header class="header clearfix element_to_stick">
+        <div class="container">
+            <div id="logo">
+                <a href="index.html">
+                    <img src="../static/img/logo.png" width="132" height="35" alt="" class="logo_normal">
+                    <img src="../static/img/logo-black.png" width="132" height="35" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+      
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="index.html"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="landing.html">Home</a></li>
+                    <li><a href="{% url 'vendor:vendor_landing' %}">Add restaurant</a></li>
+                    <li><a href="{% url 'vendor:vendor_help' %}">Help</a></li>
+                    <li><a href="{% url 'vendor:vendor_signup' %}">Sign up</a></li>
+                    <li><a href="#sign-in-dialog" id="sign-in" class="sign-in">Sign In</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="background-image hero_single inner_pages" data-background="url(../static/img/new.jpg)">
+            <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 col-md-8 col-xl-9">
+                            <h1>Need Help? We're Here for You!</h1>
+                            <p>Get quick answers to your questions or contact our support team for assistance with your
+                                FoodFlex experience.</p>
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+            </div>
+            <div class="gray hero wave"></div>
+        </div>
+        <!-- /hero_single -->
+
+        <div class="bg_gray">
+            <div class="container margin_60_40">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4">
+                        <div class="box_contacts">
+                            <i class="icon_lifesaver"></i>
+                            <h2>Help Center</h2>
+                            <a href="#0">+916351115985</a> - <a href="#0">foodflex025@gmail.com</a>
+                            <small>MON to FRI 9am-6pm SAT 9am-2pm</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="box_contacts">
+                            <i class="icon_pin_alt"></i>
+                            <h2>Address</h2>
+                            <div>Ahmedabad,Gujarat,India</div>
+                            <small>MON to FRI 9am-6pm SAT 9am-2pm</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="box_contacts">
+                            <i class="icon_cloud-upload_alt"></i>
+                            <h2>Submissions</h2>
+                            <a href="#0">+916351115985</a> - <a href="#0">foodflex025@gmail.com</a>
+                            <small>MON to FRI 9am-6pm SAT 9am-2pm</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /bg_gray -->
+
+
+        <div class="container margin_60_20">
+            <h5 class="mb_5">Drop Us a Line</h5>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 add_bottom_25">
+                    <div id="message-contact"></div>
+                    <!-- Contact Form -->
+
+                    <form id="contactform" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Name" id="name_contact"
+                                name="name_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Subject" id="subject_contact"
+                                name="subject_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="email" placeholder="Email" id="email_contact"
+                                name="email_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" style="height: 150px;" placeholder="Message"
+                                id="message_contact" name="message_contact" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn_1 full-width gradient" type="submit" value="Submit" id="submit-contact">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-lg-8 col-md-6 add_bottom_25">
+                    <iframe class="map_contact"
+                        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Ahmedabad+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <!-- /row -->
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="center main_title my-5">
+                    <span><em></em></span>
+                    <h2 style="margin-bottom: 0;">Frequent questions</h2>
+                    <p>Here you'll be able find answers your questions</p>
+                </div>
+
+                <div role="tablist" class="accordion_2 add_bottom_15" id="accordion_group">
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
+                                    <i class="icon_minus-06 indicator"></i>What is this Food Ordering System?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse show" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Our food ordering system is an online platform that allows customers to browse menus,
+                                    place orders, and make payments conveniently from their homes or workplaces.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseTwo"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I place an order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Simply browse our menu, select your desired items, add them to the cart, and proceed
+                                    to checkout to complete your order.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseThree"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What payment methods are accepted?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>We accept various payment methods, including credit/debit cards, UPI, digital
+                                    wallets, and cash on delivery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFour"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Can I cancel or modify my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Yes, you can cancel or modify your order before it is prepared. Once the restaurant
+                                    starts processing it, changes may not be possible.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseFive"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I track my order?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Once your order is placed, you can track its status in real-time through our tracking
+                                    feature.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSix"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>What if I receive the wrong or missing items?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSix" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>If you receive an incorrect or incomplete order, please contact our customer support
+                                    immediately to resolve the issue.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseSeven"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>Is there a delivery charge?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseSeven" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>Delivery charges may apply based on your location and the restaurant's policy.
+                                    Details will be provided during checkout.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header" role="tab">
+                            <h5>
+                                <a class="collapsed" data-bs-toggle="collapse" href="#collapseEight"
+                                    aria-expanded="false">
+                                    <i class="icon_plus indicator"></i>How do I contact customer support?
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseEight" class="collapse" role="tabpanel" data-bs-parent="#accordion_group">
+                            <div class="card-body">
+                                <p>You can reach our customer support team via phone, email, or live chat available on
+                                    our website.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /accordion group -->
+            </div>
+            <!-- /col -->
+        </div>
+        </div>
+        <!-- /container -->
+
+    </main>
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+            </div>
+            <!-- /row-->
+
+        </div>
+    </footer>
+
+    <!-- COMMON SCRIPTS -->
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script>
+        // Check for messages and display them as an alert
+        document.addEventListener('DOMContentLoaded', function () {
+            const messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                const messages = messageContainer.getElementsByClassName('alert');
+                if (messages.length > 0) {
+                    const messageText = messages[0].innerText;
+                    alert(messageText);
+
+                    // Clear the form fields
+                    const form = document.getElementById('contactform');
+                    form.reset();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

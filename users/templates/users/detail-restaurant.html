@@ -1,0 +1,474 @@
+{% load static %}
+{% load jsonify %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FoodFlex - Advanced Food Ordering System">
+    <meta name="author" content="Bansarishah">
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/png">
+    <title>{{ vendor.restaurant_name }} - Details</title>
+    <!-- BASE CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/detail-page.css' %}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
+    <style>
+        .icon_cart_alt {
+            font-size: 1.5rem;
+            color: #fff;
+            position: relative;
+            top: 8px;
+        }
+        /* Star Rating Styles */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .star-rating label {
+            width: 150px;
+            margin-right: 10px;
+        }
+        .star-rating .stars {
+            display: flex;
+            direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+        }
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #f5c518;
+        }
+        #review-form {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-bs-target="#secondary_nav" data-offset="75">
+    <header class="clearfix header_in">
+        <div class="container">
+            <div id="logo">
+                <a href="{% url 'users:home' %}">
+                    <img src="{% static 'img/logo-black.png' %}" width="150" height="40" alt="" class="logo_sticky">
+                </a>
+            </div>
+            <div class="layer"></div>
+            <!-- Opacity Mask Menu Mobile -->
+            <ul id="top_menu">
+                <li>
+                    <a href="{% url 'users:order' vendor_id=vendor_id|default:1 %}?order={{ order_json|urlencode }}" class="icon_cart_alt" title="View Cart"></a>
+                </li>
+                <li><a href="{% url 'users:profile' %}" class="user_2" title="My Account"></a></li>
+            </ul>
+            <!-- /top_menu -->
+            <a href="javascript:void(0)" class="open_close">
+                <i class="icon_menu"></i><span>Menu</span>
+            </a>
+            <nav class="main-menu">
+                <div id="header_menu">
+                    <a href="javascript:void(0)" class="open_close">
+                        <i class="icon_close"></i><span>Menu</span>
+                    </a>
+                    <a href="{% url 'users:home' %}"><img src="../static/img/logo.png" width="162" height="35" alt=""></a>
+                </div>
+                <ul>
+                    <li><a href="{% url 'users:home' %}">Home</a></li>
+                    <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                    <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                    <li><a href="{% url 'users:help' %}">Help</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- /header -->
+
+    <main>
+        <!-- Display Messages -->
+        {% if messages %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="background-image detail_page hero_in"
+            style="background-image: url('{% if vendor.profile_image %}{{ vendor.profile_image.url }}{% else %}{% static 'img/hero_general.jpg' %}{% endif %}');">
+            <div class="opacity-mask wrapper" data-opacity-mask="rgba(0, 0, 0, 0.5)">
+                <div class="container">
+                    <div class="main_info">
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 col-xl-4">
+                           
+                                <h1>{{ vendor.restaurant_name }}</h1>
+                                <p>{{ vendor.get_category_display }} - {{ vendor.area }}, {{ vendor.city }} - <a
+                                        href="https://www.google.com/maps?q={{ vendor.area }},{{ vendor.city }}"
+                                        target="_blank">Get directions</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="secondary_nav sticky_horizontal">
+            <div class="container">
+                <ul id="secondary_nav">
+                    {% for section, items in menu_items_by_section.items %}
+                    {% if items %}
+                    <li><a href="#section-{{ section|slugify }}">{{ section }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    <li><a href="#section-reviews"><i class="icon_chat_alt"></i>Reviews</a></li>
+                </ul>
+            </div>
+            <span></span>
+        </nav>
+
+        <div class="bg_gray">
+            <div class="container margin_detail">
+                <div class="row">
+                    <div class="col-lg-8 list_menu">
+                        {% for section, items in menu_items_by_section.items %}
+                        {% if items %}
+                        <section id="section-{{ section|slugify }}">
+                            <h4>{{ section }}</h4>
+                            <div class="row">
+                                {% for item in items %}
+                                <div class="col-md-6 mt-3">
+                                    <a class="modal_dialog mb-2 menu_item" href="#modal-{{ item.id }}">
+                                        <figure>
+                                            <img src="{% static 'img/menu-thumb-placeholder.jpg' %}"
+                                                data-src="{% if item.image %}{{ item.image.url }}{% else %}{% static 'img/menu-thumb-placeholder.jpg' %}{% endif %}"
+                                                alt="{{ item.name }}" class="lazy">
+                                        </figure>
+                                        <h3>{{ item.name }}</h3>
+                                        <p>{{ item.description|default:"No description available" }}</p>
+                                        <strong>₹{{ item.price }}</strong>
+                                    </a>
+                                    <button type="button" class="btn_1 add-to-cart full-width"
+                                        data-item-id="{{ item.id }}">Add to cart</button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                        {% endif %}
+                        {% endfor %}
+
+    
+                    </div>
+
+                    <!-- Order Summary Card -->
+                    <div class="col-lg-4" id="sidebar_fixed">
+                        <div class="box_order mobile_fixed">
+                            <div class="head">
+                                <h3>Order Summary</h3>
+                                <a href="javascript:void(0)" class="close_panel_mobile"><i class="icon_close"></i></a>
+                            </div>
+                            <div class="main">
+                                <ul class="clearfix" id="order-summary-list">
+                                    <li><em>No items selected</em></li>
+                                </ul>
+                                <ul class="clearfix" id="order-totals">
+                                    <li>Subtotal<span id="subtotal">₹0.00</span></li>
+                                    <li>Delivery fee<span id="delivery-fee">₹0.00</span></li>
+                                    <li class="total">Total<span id="total">₹0.00</span></li>
+                                </ul>
+                                <div class="row opt_order">
+                                    {% if vendor.takeaway and vendor.delivery %}
+                                        <div class="col-6">
+                                            <label class="container_radio">Delivery
+                                                <input type="radio" value="delivery" name="opt_order" checked>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="container_radio">Take away
+                                                <input type="radio" value="takeaway" name="opt_order">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    {% elif vendor.takeaway %}
+                                        <div class="col-12">
+                                            <label class="container_radio">Take away
+                                                <input type="radio" value="takeaway" name="opt_order" checked disabled>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    {% elif vendor.delivery %}
+                                        <div class="col-12">
+                                            <label class="container_radio">Delivery
+                                                <input type="radio" value="delivery" name="opt_order" checked disabled>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-12">
+                                            <p class="text-danger">This vendor does not offer delivery or takeaway.</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="btn_1_mobile">
+                                    <a href="javascript:void(0)" class="btn_1 full-width gradient mb_5"
+                                        id="checkout-btn" disabled>Order Now</a>
+                                    <!-- <div class="text-center"><small>No money charged on this step</small></div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn_reserve_fixed"><a href="javascript:void(0)"
+                                class="btn_1 full-width gradient">View Basket</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer wave"></div>
+        <div class="container fix_mobile margin_60_40">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_1">Quick Links</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_1">
+                        <ul>
+                            <li><a href="{% url 'users:home' %}">Home</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}">Browse Food</a></li>
+                            <li><a href="{% url 'users:my_orders' %}">Orders</a></li>
+                            <li><a href="{% url 'users:help' %}">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_2">Categories</h3>
+                    <div class="collapse dont-collapse-sm links" id="collapse_2">
+                        <ul>
+                            <li><a href="{% url 'users:browse_shops' %}?category=restaurant">Restaurant & Cafe</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=cloud_kitchen">Cloud Kitchens</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=tiffin">Tiffin Services</a></li>
+                            <li><a href="{% url 'users:browse_shops' %}?category=stall">Stalls</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h3 data-bs-target="#collapse_3">Contacts</h3>
+                    <div class="collapse contacts dont-collapse-sm" id="collapse_3">
+                        <ul>
+                            <li><i class="icon_house_alt"></i>Ahmedabad,Gujarat,India</li>
+                            <li><i class="icon_mobile"></i>+916351115985</li>
+                            <li><i class="icon_mail_alt"></i><a href="javascript:void(0)">foodflex025@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="collapse dont-collapse-sm" id="collapse_4">
+                        <div class="follow_us">
+                            <h5>Follow Us</h5>
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="bi bi-facebook"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-twitter-x"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-instagram"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-tiktok"></i></a></li>
+                                <li><a href="javascript:void(0)"><i class="bi bi-whatsapp"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">© 2025 FoodFlex - All Rights Reserved</div>
+        </div>
+    </footer>
+
+    <div id="toTop"></div>
+    <!-- COMMON SCRIPTS -->
+    <script id="menu-items-json" type="application/json">
+        {{ menu_items_json|safe }}
+    </script>
+    <script src="{% static 'js/common_scripts.min.js' %}"></script>
+    <script src="{% static 'js/common_func.js' %}"></script>
+    <script src="{% static 'js/validate.js' %}"></script>
+    <script src="{% static 'js/sticky_sidebar.min.js' %}"></script>
+    <script src="{% static 'js/sticky-kit.min.js' %}"></script>
+    <script src="{% static 'js/specific_listing.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Existing JavaScript for order summary
+            console.log('Loading script...');
+            const menuItemsJsonElement = document.getElementById('menu-items-json');
+            let menuItems = [];
+            if (!menuItemsJsonElement) {
+                console.error('Menu items JSON element not found!');
+            } else {
+                menuItems = JSON.parse(menuItemsJsonElement.textContent || '[]');
+                console.log('Menu Items:', menuItems);
+            }
+
+            let order = {};
+            const hasDelivery = "{{ vendor.delivery|yesno:'true,false' }}";
+            const hasTakeaway = "{{ vendor.takeaway|yesno:'true,false' }}";
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (!hasDelivery && !hasTakeaway) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.textContent = "Order Unavailable";
+            }
+
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('add-to-cart')) {
+                    const itemId = parseInt(e.target.getAttribute('data-item-id'));
+                    console.log('Add to Cart clicked for itemId:', itemId);
+                    addToOrder(itemId);
+                } else if (e.target.classList.contains('remove-item')) {
+                    const itemId = parseInt(e.target.getAttribute('data-item-id'));
+                    console.log('Remove item clicked for itemId:', itemId);
+                    removeFromOrder(itemId);
+                } else if (e.target.classList.contains('minus-item')) {
+                    const itemId = parseInt(e.target.getAttribute('data-item-id'));
+                    console.log('Minus item clicked for itemId:', itemId);
+                    decreaseOrder(itemId);
+                }
+            });
+
+            function addToOrder(itemId) {
+                const qty = 1;
+                const item = menuItems.find(i => i.id === itemId);
+                console.log('Looking for item:', itemId, 'Found:', item);
+                if (!item) {
+                    console.error(`Item with ID ${itemId} not found in menuItems`);
+                    return;
+                }
+
+                const price = parseFloat(item.price);
+                const itemTotal = price * qty;
+
+                if (order[itemId]) {
+                    order[itemId].qty += qty;
+                    order[itemId].total += itemTotal;
+                } else {
+                    order[itemId] = { qty, total: itemTotal };
+                }
+
+                console.log('Order updated:', order);
+                updateOrderSummary();
+            }
+
+            function removeFromOrder(itemId) {
+                if (order[itemId]) {
+                    delete order[itemId];
+                    console.log('Item removed from order:', itemId);
+                    updateOrderSummary();
+                }
+            }
+
+            function decreaseOrder(itemId) {
+                if (order[itemId] && order[itemId].qty > 1) {
+                    const item = menuItems.find(i => i.id === itemId);
+                    if (item) {
+                        const price = parseFloat(item.price);
+                        order[itemId].qty -= 1;
+                        order[itemId].total -= price;
+                        console.log('Item quantity decreased:', itemId);
+                        updateOrderSummary();
+                    }
+                } else if (order[itemId] && order[itemId].qty === 1) {
+                    removeFromOrder(itemId);
+                }
+            }
+
+            function updateOrderSummary() {
+                const list = document.getElementById('order-summary-list');
+                const subtotalEl = document.getElementById('subtotal');
+                const deliveryFeeEl = document.getElementById('delivery-fee');
+                const totalEl = document.getElementById('total');
+
+                list.innerHTML = '';
+                let subtotal = 0;
+
+                if (Object.keys(order).length === 0) {
+                    list.innerHTML = '<li><em>No items selected</em></li>';
+                } else {
+                    for (let [itemId, details] of Object.entries(order)) {
+                        const item = menuItems.find(i => i.id === parseInt(itemId));
+                        if (item) {
+                            list.innerHTML += `
+                                <li>
+                                    <a href="javascript:void(0)">${details.qty}x ${item.name}</a>
+                                    <span>₹${details.total.toFixed(2)}</span>
+                                    <button class="btn btn-danger btn-sm minus-item" data-item-id="${itemId}">-</button>
+                                    <button class="btn btn-danger btn-sm remove-item" data-item-id="${itemId}"><i class="icon_trash_alt"></i></button>
+                                </li>`;
+                            subtotal += details.total;
+                        }
+                    }
+                }
+                const deliveryFee = subtotal > 0 && hasDelivery ? 10.00 : 0.00;
+                const total = subtotal + deliveryFee;
+
+                subtotalEl.textContent = `₹${subtotal.toFixed(2)}`;
+                deliveryFeeEl.textContent = `₹${deliveryFee.toFixed(2)}`;
+                totalEl.textContent = `₹${total.toFixed(2)}`;
+                checkoutBtn.disabled = Object.keys(order).length === 0 || (!hasDelivery && !hasTakeaway);
+            }
+
+            checkoutBtn.addEventListener('click', function() {
+                if (!checkoutBtn.disabled) {
+                    const orderData = encodeURIComponent(JSON.stringify(order));
+                    const vendorId = "{{ vendor.id }}";
+                    window.location.href = `/order/${vendorId}/?order=${orderData}`;
+                }
+            });
+
+            $(document).ready(function() {
+                $('.magnific-gallery').magnificPopup({
+                    type: 'image',
+                    gallery: {
+                        enabled: true
+                    }
+                });
+            });
+
+            // Show/Hide Review Form
+            const showReviewFormBtn = document.getElementById('show-review-form');
+            const reviewForm = document.getElementById('review-form');
+            const cancelReviewFormBtn = document.getElementById('cancel-review-form');
+
+            showReviewFormBtn.addEventListener('click', function() {
+                reviewForm.style.display = 'block';
+                showReviewFormBtn.style.display = 'none';
+            });
+
+            cancelReviewFormBtn.addEventListener('click', function() {
+                reviewForm.style.display = 'none';
+                showReviewFormBtn.style.display = 'block';
+                reviewForm.querySelector('form').reset();
+            });
+        });
+    </script>
+</body>
+</html>
